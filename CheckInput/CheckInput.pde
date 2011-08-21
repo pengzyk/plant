@@ -1,10 +1,16 @@
-void setup() { 
-  Serial.begin(9600);       // initialize serial communications
-} 
 
-void loop() 
-{ 
-  int analogValue = analogRead(A0); // read the analog input 
-  Serial.println(analogValue);      // print it
+#include <Field.h>
+
+Field field('A0', 20);
+
+void setup()
+{
+    
 }
+
+void loop() {
+      field.Sensor();      
+     field.Debug();       
+}
+
 
