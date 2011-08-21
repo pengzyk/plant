@@ -1,7 +1,6 @@
+#include <Field.h>
 
-//#include <Field.h>
-
-//Field field('A0', 20);
+Field field(A0);
 
 void setup()
 {
@@ -9,10 +8,9 @@ void setup()
 }
 
 void loop() {
-      Serial.print("SensorDebug: \t");
-    Serial.println(analogRead(A0), DEC);
-          
-     //field.Debug(); 
+
+Serial.println(field.sensor());
+
 delay(100);     
 }
 
