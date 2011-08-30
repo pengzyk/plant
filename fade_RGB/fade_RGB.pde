@@ -31,7 +31,7 @@ void setup() {
     pinMode(RedPin, OUTPUT);
     pinMode(GreenPin, OUTPUT);
     pinMode(BluePin, OUTPUT);
-    Serial.begin(9600);
+  //  Serial.begin(9600);
     //
     Events.addHandler(sadness, 1000);  // Every 1000ms
     Events.addHandler(setColor, 30);  // Every 30ms
@@ -41,7 +41,7 @@ void setup() {
 
 void loop() {
    Events.loop();
-   Serial.println("looping");
+   //Serial.println("looping");
    //color(255,255,255,10);
 }
 
@@ -58,14 +58,11 @@ void color(int red, int green, int blue, int intensity) {
   C2[3] = intensity;
 }
 void sadness() {
- // decrease
- Serial.print("Status: \t");
- Serial.println(mood);
- 
- if (mood > 0) { 
+  
+ if (mood > 1) { 
    mood-- ;
  } else {
-    Events.addOneShotHandler(hibernate,4000);
+    Events.addOneShotHandler(hibernate,5000);
  }
  
  
@@ -124,7 +121,7 @@ void setColor() {
 */
 void eventReset() {
   
-  Events.reset();
-  Events.addHandler(setColor, 30);
+//  Events.reset();
+ // Events.addHandler(setColor, 30);
 }
 
