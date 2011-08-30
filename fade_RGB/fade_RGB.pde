@@ -121,7 +121,7 @@ void setColor() {
 */
 void eventReset() {
   
-//  Events.reset();
- // Events.addHandler(setColor, 30);
+  Events.reset();
+  Events.addHandler(setColor, 30);
 }
 
