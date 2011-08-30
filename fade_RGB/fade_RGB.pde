@@ -1,73 +1,129 @@
+/*
+we need to simulate multitasked - hopefully it works
+
+get the Aiko package on mac:
+cd /Applications/Arduino.app/Contents/Resources/Java/libraries
+git clone git://github.com/geekscape/aiko_arduino.git
+
+*/
+
+#include <AikoEvents.h>
+using namespace Aiko;
+
+
 /* select the PWM pins */
 int RedPin = 3;
 int GreenPin = 5;
 int BluePin = 6;
-int color[] = {0,0,0}; //R,G,B
+int C1[] = {0,0,0}; //R(0-255),G(0-255),B(0-255) -- this is the current colour of the lamp
+int C2[] = {0,0,0,0}; //R(0-255),G(0-255),B(0-255),Intensity(0-100) -- this is the colour we want the lamp to be
+
+
+/*
+  Upperlimit of 3,600 (1 hour countdown) 
+  Based on a delay of 100ms in the loop.
+*/
+
+long mood = 0;
+long cooldown = 1 * 60 *60; // 1 hour * 60 = 60 minutes * 60 seconds = time in seconds
 
 void setup() {
     pinMode(RedPin, OUTPUT);
     pinMode(GreenPin, OUTPUT);
     pinMode(BluePin, OUTPUT);
+    Serial.begin(9600);
+    //
+    Events.addHandler(sadness, 1000);  // Every 1000ms
+    Events.addHandler(setColor, 30);  // Every 30ms
+    //
+
 }
 
 void loop() {
-
-setColor(255,255,255,1);
-delay(2000);
-
-setColor(255,255,255,20);
-delay(1000);
-
-breathing();
-
+   Events.loop();
+   //color(255,255,255,10);
 }
 
-void breathing () {
-  setColor(255,0,0,1);
-  delay(200);
-  setColor(255,0,0,100);
-  delay(200);
-  setColor(255,0,0,1);
-  delay(200);
-  setColor(255,0,0,100);
-  delay(200);
-  setColor(255,0,0,1);
-  delay(200);
+
+void color(int red, int green, int blue, int intensity) {
+
+  if (red > 0) { red = (red/100)*intensity; }
+  if (green > 0) { green = (green/100)*intensity; }
+  if (blue > 0) { blue = (blue/100)*intensity;  }
+    
+  C2[0] = red;
+  C2[1] = green;
+  C2[2] = blue;
+  C2[3] = intensity;
 }
-void setColor (int red, int green, int blue, int intensity) {
+void sadness() {
+ // decrease
+ Serial.print("Status: \t");
+ Serial.println(mood);
+ 
+ if (mood > 0) { 
+   mood-- ;
+ } else {
+    Events.addOneShotHandler(hibernate,4000);
+ }
+ 
+ 
+}
+
+void hibernate() {
+  /* 
+    We want it to appear to breathe
+  */
+  eventReset();
+  color(0,0,110,100);
+  Events.addHandler(fade_out, 30, 2000);
+}
+
+void fade_out(){
+
+  C2[0] = C1[0] > 0 ? C1[0] - 1: C1[0];
+  C2[1] = C1[1] > 0 ? C1[1] - 1: C1[1];
+  C2[2] = C1[2] > 0 ? C1[2] - 1: C1[2];
+  if (C2[0] == 0 && C2[1] == 0 && C2[2] ==0) {
+    eventReset();
+    Events.addOneShotHandler(hibernate,2000);
+  }
+}
+void setColor() {
     /* 
-      we shouldn't divide by zero.. 
-      not sure what the microcontroller would do 
+      we shouldn't divide by zero so need to do a reality check
+      
+      C2[0] = Red
+      C2[1] = Green
+      C2[2] = Blue
+      C2[3] = Intensity 
     */
-    if (red == 0) { red = 1; }
-    if (green == 0) { green = 1; }
-    if (blue == 0) { blue = 1; }
-    
-    red = (red/100)*intensity;
-    green = (green/100)*intensity;
-    blue = (blue/100)*intensity;
-    
-  do {
-    color[0] = red > color[0] ? color[0] + 1: color[0];
-    color[0] = red < color[0] ? color[0] - 1: color[0];
-    
-    color[1] = green > color[1] ? color[1] + 1: color[1];
-    color[1] = green < color[1] ? color[1] - 1: color[1];
-    
-    color[2] = blue > color[2] ? color[2] + 1: color[2];
-    color[2] = blue < color[2] ? color[2] - 1: color[2];
-    
-    analogWrite(RedPin, color[0]);
-    analogWrite(GreenPin, color[1]);
-    analogWrite(BluePin, color[2]);
-    /*  
-      This delay could block other functions.. 
-      but it's only on fade.. must test with audio shield
-    */
-    delay(30); 
-  } while (red != color[0] || green != color[1] || blue != color[2]);
+    int red = C2[0];
+    int green = C2[1];
+    int blue = C2[2];
 
-
+    C1[0] = red > C1[0] ? C1[0] + 1: C1[0];
+    C1[0] = red < C1[0] ? C1[0] - 1: C1[0];
+    
+    C1[1] = green > C1[1] ? C1[1] + 1: C1[1];
+    C1[1] = green < C1[1] ? C1[1] - 1: C1[1];
+    
+    C1[2] = blue > C1[2] ? C1[2] + 1: C1[2];
+    C1[2] = blue < C1[2] ? C1[2] - 1: C1[2];
+    
+    analogWrite(RedPin, C1[0]);
+    analogWrite(GreenPin, C1[1]);
+    analogWrite(BluePin, C1[2]);
+ 
 }
-
+/* 
+  gives us a way to keep things 
+  ticking since removeHandler doesn't 
+  work in Aiko 
+*/
+void eventReset() {
+  
+  Events.reset();
+  Events.addHandler(setColor, 30);
+}
 
