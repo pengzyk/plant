@@ -41,6 +41,7 @@ void setup() {
 
 void loop() {
    Events.loop();
+   Serial.println("looping");
    //color(255,255,255,10);
 }
 
@@ -75,18 +76,18 @@ void hibernate() {
     We want it to appear to breathe
   */
   eventReset();
-  color(0,0,110,100);
-  Events.addHandler(fade_out, 30, 2000);
+  color(0,0,110,20);
+  Events.addHandler(fade_out, 40, 2000);
 }
 
 void fade_out(){
 
-  C2[0] = C1[0] > 0 ? C1[0] - 1: C1[0];
-  C2[1] = C1[1] > 0 ? C1[1] - 1: C1[1];
-  C2[2] = C1[2] > 0 ? C1[2] - 1: C1[2];
+  C2[0] = C1[0] > 0 ? C1[0] - 1 : C1[0];
+  C2[1] = C1[1] > 0 ? C1[1] - 1 : C1[1];
+  C2[2] = C1[2] > 0 ? C1[2] - 1 : C1[2];
   if (C2[0] == 0 && C2[1] == 0 && C2[2] ==0) {
     eventReset();
-    Events.addOneShotHandler(hibernate,2000);
+    Events.addOneShotHandler(hibernate,3000);
   }
 }
 void setColor() {
