@@ -1,0 +1,674 @@
+/**
+ * Main CSS Stylesheet
+ *
+ * @package templateSystem
+ * @copyright Copyright 2003-2005 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: stylesheet_new.css 3286 2006-03-28 01:14:04Z drbyte $
+ */
+
+body {
+color:#000000;
+font:.75em/1.4 helvetica, arial, sans-serif;
+background-color:#fff;
+margin:0 15px;
+}
+
+a img {border: none; }
+
+a:link {
+color:#1a7fb7;
+text-decoration:none;
+font-weight:bold;
+}
+
+a:visited {
+color:#052b62;
+text-decoration:none;
+font-weight:bold;
+}
+
+a:hover {
+color:#4dafea;
+text-decoration:underline;
+}
+
+
+h1 {
+	font-size: 1.4em;
+	color:#333;
+}
+h2 {
+	font-size: 1.3em;
+}
+h3 {
+	font-size: 1.2em;
+}
+
+h4, h5, h6, LABEL, h4.optionName, LEGEND, ADDRESS, .sideBoxContent, .larger{
+	font-size: 1.1em;
+}
+
+.biggerText {
+	font-size: 1.2em;
+	}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0.3em;
+}
+
+CODE {
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 1em;
+	}
+FORM, SELECT, INPUT {
+	display: inline;
+	font-size: 1em;
+	margin: 0.1em;
+}
+
+TEXTAREA {
+	margin: auto;
+	display: block;
+	width: 95%;
+	}
+input:focus, select:focus, textarea:focus {
+	background: #F0F8FF;
+}
+FIELDSET {
+	padding: 0.5em;
+	margin: 0.5em 0em;
+	border: 1px solid #cccccc;
+	}
+LEGEND {
+	font-weight: bold;
+	padding: 0.3em;
+	}
+
+LABEL, h4.optionName {
+	line-height: 1.25em;
+	padding: 0.1em;
+}
+
+LABEL.checkboxLabel, LABEL.radioButtonLabel {
+	font-size: 0.95em;
+	margin: 0.2em 0.5em;
+	}
+
+#logo {
+float: center;
+}
+.centerBoxContents, .specialsListBoxContents, .categoryListBoxContents, .centerBoxContentsAlsoPurch, .attribImg {
+	float: left;
+	}
+
+LABEL.inputLabel {
+	font-size: 0.95em;
+	width: 10em;
+	float: left;
+	}
+
+LABEL.inputLabelPayment {
+	width: 15em;
+	float: left;
+	}
+
+LABEL.selectLabel, LABEL.switchedLabel, LABEL.uploadsLabel  {
+	width: 12em;
+	float: left;
+	}
+
+P, ADDRESS {
+	padding: 0.5em;
+}
+ADDRESS {
+	font-style: normal;
+	}
+.clearBoth {
+	clear: both;
+}
+HR {
+	height: 1px;
+	margin-top: 0.5em;
+	border: none;
+	border-bottom: 1px solid #9a9a9a;
+	}
+/*warnings, errors, messages*/
+.messageStackWarning, .messageStackError, .messageStackSuccess, .messageStackCaution {
+	line-height: 1.8em;
+	padding: 0.2em;
+	border: 1px solid #000000;
+	}
+.messageStackWarning, .messageStackError {
+	background-color: #ff0000;
+	color: #ffffff;
+	}
+.messageStackSuccess {
+	background-color: #99FF99;
+	color: #000000;
+	}
+.messageStackCaution {
+	background-color: #FFFF66;
+	color: #000000;
+	}
+/*wrappers - page or section containers*/
+#mainWrapper {
+	text-align: left;
+	vertical-align: top;
+	width: 900px;
+}
+
+/* main content area */
+#contentMainWrapper {
+margin:0;
+}
+
+#logoWrapper {
+		margin-left: 2em;
+		margin-bottom: 1em;
+		
+
+}
+#headerWrapper, #contentMainWrapper,  #cartBoxListWrapper, #ezPageBoxList, #cartBoxListWrapper ul, #ezPageBoxList ul, #mainWrapper, #popupAdditionalImage, #popupImage {
+	margin: 0em;
+	padding: 0em;
+}
+
+#navColumnOneWrapper, #navColumnTwoWrapper, #mainWrapper {
+	margin: auto;
+}
+
+#sendSpendWrapper {
+	border: 1px solid #cacaca;
+	float: right;
+	margin: 0em 0em 1em 1em;
+	}
+
+.floatingBox, #accountLinksWrapper, #sendSpendWrapper, #checkoutShipto, #checkoutBillto, #csNotifications, #navEZPagesTOCWrapper {
+	margin: 10px 0px;
+	width: 46%;
+	}
+
+.wrapperAttribsOptions {
+	margin: 0.3em 0em;
+	}
+
+/* HEADER */
+#navMainWrapper {
+}
+
+#navMainWrapper a:link , #navMainWrapper a:visited {
+}
+
+#navMainWrapper a:hover {
+text-decoration:underline;
+}
+
+#headerContent {
+background:#1a7fb7 url('../images/header-bg.jpg') center center no-repeat;
+padding:10px;
+}
+
+#nameWrapper  {
+padding:10px 0 10px 30px;
+}
+
+#nameWrapper a, #nameWrapper a:visited {
+font-size:40px;
+text-decoration:none;
+color:#fff;
+font-weight:normal;
+}
+
+#taglineWrapper {
+font-size:20px;
+padding:10px 0 10px 60px;
+margin-top:-30px;
+color:#fff;
+}
+
+#navEZPagesTop {
+font-weight: bold;
+text-align:center;
+font-size:1.2em;
+}
+
+ #navEZPagesTop a {
+ color:#fff;
+ }
+
+
+
+.navMainSearch {
+margin:0 10px 0 0;
+line-height:0;
+float:right;
+}
+
+	
+/*navigation*/
+
+.navSplitPagesResult {
+	margin: 0.5em;
+	font-size: 0.9em;
+	}
+.navSplitPagesLinks {
+	margin: 0.5em;
+	font-size: 0.9em;
+}
+.navNextPrevCounter {
+	margin: 0em;
+	font-size: 0.9em;
+	}
+.navNextPrevList {
+	display: inline;
+	white-space: nowrap;
+	margin: 0;
+	padding:  0.5em 0em;
+	list-style-type: none;
+	}
+
+#navMainWrapper, #navSuppWrapper, #navCatTabsWrapper {
+	margin: 0em;
+	font-weight: bold;
+	height: 1%;
+	width: 100%;
+}
+
+#navMain ul, #navSupp ul, #navCatTabs ul  {
+	margin: 0;
+	padding:  0.5em 0em;
+	list-style-type: none;
+	text-align: center;
+	line-height: 1.5em;
+}
+#navMain ul li, #navSupp ul li, #navCatTabs ul li {
+	display: inline;
+	white-space: nowrap;
+}
+
+#navMain ul li a, #navSupp ul li a, #navCatTabs ul li a {
+	text-decoration: none;
+	padding: 0em 0.5em;
+	margin: 0;
+}
+
+#headerWrapper #navMain ul li {
+	border-right:1px solid #666;
+}
+
+#navEZPagesTOCWrapper {
+font-weight: bold;
+float: right;
+height: 1%;
+border:1px solid #dfdfdf;
+}
+
+#navEZPagesTOC ul  {
+	margin: 0;
+	padding:  0.5em 0em;
+	list-style-type: none;
+	line-height: 1.5em;
+}
+#navEZPagesTOC ul li {
+	white-space: nowrap;
+}
+#navEZPagesTOC ul li a {
+	padding: 0em 0.5em;
+	margin: 0;
+}
+
+#navCategoryIcon, .buttonRow, #indexProductListCatDescription  {
+	margin: 0.5em;
+}
+#navBreadCrumb {
+border-bottom:1px solid #bfbfbf;
+padding: 0px 0 5px 0;
+margin:3px 25px 0 25px;
+}
+
+/*The main content classes*/
+#contentColumnMain, #navColumnOne, #navColumnTwo, .centerBoxContents, .specialsListBoxContents, .categoryListBoxContents, .additionalImages, .centerBoxContentsSpecials, .centerBoxContentsAlsoPurch, .centerBoxContentsFeatured, .centerBoxContentsNew, .alert {
+	vertical-align: top;
+}
+
+#productDescription, .shippingEstimatorWrapper {
+	padding: 0.5em;
+}
+
+.alert {
+	color: #FF0000;
+	margin-left: 0.1em;
+	font-size: 0.9em;
+	}
+.advisory {}
+.important {
+	font-size: 1.1em;
+	}
+.notice {}
+.rating{}
+.gvBal {
+	float: right;
+	}
+	
+ #bannerOne, #bannerTwo,  #bannerThree,  #bannerFour,  #bannerFive,  #bannerSix {
+	padding: 0.8em;
+}
+
+.smallText, #siteinfoLegal, #siteinfoCredits, #siteinfoStatus, #siteinfoIP {
+	font-size: 0.9em;
+}
+
+#siteinfoLegal, #siteinfoCredits, #siteinfoStatus, #siteinfoIP {
+margin-bottom:10px;
+}
+
+/*Shopping Cart Display*/
+#cartAdd {
+text-align: center;
+margin: 1em 0 1em 0;
+background-color:#f8f8f8;
+border:1px solid #dfdfdf;
+padding: 1em;
+float:left;
+clear:right;
+}
+
+.cartTableHeading TH {
+	border-bottom: 1px solid #cccccc;
+	}
+
+.cartTableHeading, #cartSubTotal {
+	background-color: #e9e9e9;
+	height: 2.2em;
+ }
+
+#cartSubTotal {
+	border-top: 1px solid #cccccc;
+	font-weight: bold;
+	text-align: right;
+	line-height: 2.2em;
+	padding-right: 2.5em;
+	}
+
+.cartProductDisplay, .cartUnitDisplay, .cartTotalDisplay, .cartRemoveItemDisplay, .cartQuantityUpdate, .cartQuantity, #cartInstructionsDisplay, .cartTotalsDisplay   {
+	padding: 0.5em 0em;
+	}
+.cartUnitDisplay, .cartTotalDisplay {
+	text-align: right;
+	padding-right: 0.2em;
+	}
+#scUpdateQuantity {
+	width: 2em;
+	}
+
+.cartQuantity {
+	width: 4.7em;
+	}
+
+.cartNewItem {
+	color: #33CC33;
+	position: relative;  /*do not remove-fixes stupid IEbug*/
+	}
+
+.cartOldItem {
+	color: #660099;
+	position: relative;   /*do not remove-fixes stupid IEbug*/
+	}
+
+.cartBoxTotal {
+	text-align: right;
+	font-weight: bold;
+	}
+
+.cartRemoveItemDisplay {
+	width: 3.5em;
+	}
+
+#cartAttribsList {
+	margin-left: 1em;
+	}
+
+.normalprice, .productSpecialPriceSale {
+	text-decoration: line-through;
+	}
+.productSpecialPrice, .productSalePrice, .productSpecialPriceSale, .productPriceDiscount {
+	color: #ff0000;
+	}
+
+#cartBoxListWrapper ul, #ezPageBoxList ul {
+	list-style-type: none;
+	}
+
+#cartBoxListWrapper li, #ezPageBoxList li, .cartBoxTotal {
+	margin: 0;
+	padding: 0.2em 0em;
+	} 
+
+.totalBox {
+	width: 5.5em;
+	text-align: right;
+	padding: 0.2em;
+	}
+
+.lineTitle, .amount {
+	text-align: right;
+	padding: 0.2em;
+	}
+
+.amount {
+	width: 5.5em;
+	}
+
+/*Image Display*/
+#productMainImage, #reviewsInfoDefaultProductImage, #productReviewsDefaultProductImage, #reviewWriteMainImage {
+	margin: 0em 1em 1em 0em ;
+}
+.categoryIcon {}
+#cartImage {
+	margin: 0.5em 1em;
+	}
+
+/*Attributes*/
+.attribImg {
+	width: 20%;
+	margin: 0.3em 0em;
+}
+
+.attributesComments {}
+
+.centerBoxContents, .specialsListBoxContents, .categoryListBoxContents, .additionalImages, .centerBoxContentsSpecials, .centerBoxContentsAlsoPurch, .centerBoxContentsFeatured, .centerBoxContentsNew {
+	margin: 1em 0em;
+}
+
+.centerBoxContents {
+  padding: 0 5px 5px 5px;
+	
+}
+
+/* BOXES */
+	
+#navColumnOne, #navColumnTwo {
+padding:10px;
+background-color:#fafafa;
+}	
+
+.centerColumn {
+padding: 0 25px 0 25px;
+}
+	
+h2.centerBoxHeading, .productListing-rowheading, TR.tableHeading {
+  background:transparent url('../images/box-title-bg.jpg') center center repeat-x;
+  font-weight:bold;
+  font-size:1.1em;
+  margin:0;
+  padding:5px;
+  color:#fff;
+}
+
+h2.centerBoxHeading {
+ padding-left:10px;
+
+}
+
+.productListing-rowheading, TR.tableHeading {
+height:2em;
+}
+
+.centerBoxWrapper, .tabTable {
+padding: 0px;
+height: 1%; /*do not remove- IEhack*/
+margin-bottom: 1em;
+line-height:1.4;
+background:#f8f8f8 url('../images/content-bg.jpg') 0 28px repeat-x;
+}
+		
+.sideBoxContent {
+line-height:1.4;
+padding:5px;
+margin-bottom:15px;
+background:transparent url('../images/content-bg.jpg') top center repeat-x;
+}
+
+
+h3.rightBoxHeading, h3.leftBoxHeading  {
+background:transparent url('../images/box-title-bg.jpg') left center no-repeat;
+text-align:center;
+margin:0;
+letter-spacing:.5px;
+padding:2.5px;
+}
+
+h3 label {
+font-size:1.0em;
+}
+
+h3.rightBoxHeading, h3.rightBoxHeading a, h3.leftBoxHeading, h3.leftBoxHeading a  {
+color:#fff;
+}
+
+h3.leftBoxHeading a:hover, h3.rightBoxHeading a:hover {
+	text-decoration: underline;
+} 
+
+
+/* PRODUCT LISTING */
+
+.productListing-rowheading a {
+color:#fff;
+}
+
+.productListing-data img {
+padding:8px;
+}
+
+.productListing-even {
+background-color:#f0f0f0;
+}
+
+.productListing-odd {
+background-color:#fafafa;
+}
+
+/* PRODUCT INFO */
+#productDetailsList, #productDetailsList li {
+list-style-type:none;
+margin-left:0;
+padding-left:0;
+}
+
+/* FOOTER */
+
+#authorLink {
+text-align:center;
+font-size:.9em;
+}
+
+.centeredContent, TH, #cartEmptyText, #cartBoxGVButton, #navNextPrevWrapperTop, #navNextPrevWrapperBottom, #navCatTabsWrapper, #navEZPageNextPrev, #bannerOne, #bannerTwo,  #bannerThree,  #bannerFour,  #bannerFive,  #bannerSix, #siteinfoLegal, #siteinfoCredits, #siteinfoStatus, #siteinfoIP, .center, .cartRemoveItemDisplay, .cartQuantityUpdate, .cartQuantity, .cartTotalsDisplay, #cartBoxGVBalance, .accountQuantityDisplay, .ratingRow, LABEL#textAreaReviews, #productMainImage, #reviewsInfoDefaultProductImage, #productReviewsDefaultProductImage, #reviewWriteMainImage, .centerBoxContents, .specialsListBoxContents, .categoryListBoxContents, .additionalImages, .centerBoxContentsSpecials, .centerBoxContentsAlsoPurch, .centerBoxContentsFeatured, .centerBoxContentsNew, .gvBal, .attribImg {
+text-align: center;
+}
+
+#bestsellers .wrapper {
+	margin: 0em 0em 0em 1.5em;
+	}
+
+#bestsellers ol {
+	padding: 0;
+	margin-left: 1.1em;
+	}
+
+#bestsellers li {
+	padding: 0;
+	margin: 0.3em 0em 0.3em 0em;
+	}
+
+#bannerboxHeading {
+}
+#upProductsHeading {
+	text-align: left;
+	}
+#upDateHeading {
+	text-align: right;
+	}
+/*misc*/
+.back {
+  float: left;
+}
+.forward {
+	float: right;
+}
+
+.bold {
+	font-weight: bold;
+	}
+
+.rowOdd {
+	background-color: #F8F8F8;
+	height: 1.5em;
+	vertical-align: top;
+	}
+
+.rowEven {
+	background-color: #F4F4F4;
+	height: 1.5em;
+	vertical-align: top;
+	}
+
+CAPTION {
+	/*display: none;*/
+	}
+
+#myAccountGen li, #myAccountNotify li {
+	margin: 0;
+	} 
+
+.accountTotalDisplay, .accountTaxDisplay {
+	width: 20%;
+	text-align: right;
+	/*vertical-align: top*/
+	}
+
+.accountQuantityDisplay {
+	width: 10%;
+	vertical-align: top
+	}
+
+
+#siteMapList {
+	width: 90%;
+	float: right;
+	}
+
+.ratingRow {
+	margin: 1em 0em 1.5em 0em;
+	}
+
+LABEL#textAreaReviews {
+	font-weight: normal;
+	margin: 1em 0em;
+	}
+
+#popupShippingEstimator, #popupSearchHelp, #popupAdditionalImage, #popupImage, #popupCVVHelp, #popupCouponHelp, #popupAtrribsQuantityPricesHelp {
+	background-color: #ffffff;
+}

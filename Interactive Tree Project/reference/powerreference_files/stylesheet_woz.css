@@ -1,0 +1,82 @@
+/**
+ * CSS Stylesheet for WOZ
+ *
+ * HOWTO
+ * A)Upload this file.
+ * B)Add follows to the end of a Stylesheet using.
+*/
+
+#wordpressDefault #footer, #wordpressDefault #footer a{
+  color:gray;
+  font-size:10px;
+  text-align:center;
+}
+
+
+#sidebar ul, #sidebar ul ol {
+	margin: 0;
+	padding: 0;
+	}
+
+#sidebar ul li {
+	list-style-type: none;
+	list-style-image: none;
+	margin-bottom: 10px;
+	}
+
+#sidebar ul p, #sidebar ul select {
+	margin: 5px 0 8px;
+	}
+
+#sidebar ul ul, #sidebar ul ol {
+	margin: 5px 0 0 10px;
+	}
+
+#sidebar ul ul ul, #sidebar ul ol {
+	margin: 0 0 0 10px;
+	}
+
+ol li, #sidebar ul ol li {
+	list-style: decimal outside;
+	}
+
+#sidebar ul ul li, #sidebar ul ol li {
+	margin: 3px 0 0;
+	padding: 0;
+	}
+	
+/* for v1.2 */
+.leftboxcontent ul li, .rightboxcontent ul li , .singleboxcontent ul li{
+  list-style-type: none;
+  margin:0px;
+  padding-left: 0px;
+}
+
+.leftboxcontent ul, .rightboxcontent ul , .singleboxcontent ul{
+  margin:0px;
+  padding-left:0px;
+}
+
+.leftboxcontent ul ul, .rightboxcontent ul ul, .singleboxcontent ul ul{
+  list-style-type: square;
+  margin:0px;
+  padding-left:5px;
+}
+
+/* for v1.3 */
+.leftBoxContainer ul li, .rightBoxContainer ul li , .singleBoxContainer ul li{
+  list-style-type: none;
+  margin:0px;
+  padding-left: 0px;
+}
+
+.leftBoxContainer ul, .rightBoxContainer ul , .singleBoxContainer ul{
+  margin:0px;
+  padding-left:0px;
+}
+
+.leftBoxContainer ul ul, .rightBoxContainer ul ul, .singleBoxContainer ul ul{
+  list-style-type: square;
+  margin:0px;
+  padding-left:5px;
+}

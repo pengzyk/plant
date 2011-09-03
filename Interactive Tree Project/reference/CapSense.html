@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Arduino playground - CapSense </title>
+  <link rel="shortcut icon" type="image/x-icon" href="http://arduino.cc/playground/favicon.png">
+  <link rel="stylesheet" href="CapSense_files/arduinoWide.css" type="text/css">
+  <script src="CapSense_files/sso_bar_js_2.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="CapSense_files/sso_bar.css">
+<!--HeaderText--><style type="text/css"><!--
+  ul, ol, pre, dl, p { margin-top:0px; margin-bottom:0px; }
+  code { white-space: nowrap; }
+  .vspace { margin-top:1.33em; }
+  .indent { margin-left:40px; }
+  .outdent { margin-left:40px; text-indent:-40px; }
+  a.createlinktext { text-decoration:none; border-bottom:1px dotted gray; }
+  a.createlink { text-decoration:none; position:relative; top:-0.5em;
+    font-weight:bold; font-size:smaller; border-bottom:none; }
+  img { border:0px; }
+  .editconflict { color:green; 
+  font-style:italic; margin-top:1.33em; margin-bottom:1.33em; }
+
+  table.markup { border: 2px dotted #ccf; width:90%; }
+  td.markup1, td.markup2 { padding-left:10px; padding-right:10px; }
+  td.markup1 { border-bottom: 1px solid #ccf; }
+  div.faq { margin-left:2em; }
+  div.faq p.question { margin: 1em 0 0.75em -2em; font-weight:bold; }
+  div.faq hr { margin-left: -2em; }
+   
+    .frame 
+      { border:1px solid #cccccc; padding:4px; background-color:#f9f9f9; }
+    .lfloat { float:left; margin-right:0.5em; }
+    .rfloat { float:right; margin-left:0.5em; }
+a.varlink { text-decoration:none; }
+
+--></style>  <meta name="robots" content="index,follow">
+
+</head>
+<body>
+  
+		<div id="ssotoolbar">
+		  <div id="al">
+			<nobr><div id="ssoNavBar"><a class="t0" href="http://arduino.cc/en/">Main Site</a> <a class="t0" href="http://arduino.cc/blog/">Blog</a> <a class="t1" href="http://arduino.cc/playground/">Playground</a> <a class="t0" href="http://arduino.cc/forum/">Forum</a> <a class="t0" href="http://labs.arduino.cc/">Labs</a> <a class="t0" href="http://store.arduino.cc/ww/">Store</a> </div></nobr>
+		  </div>
+		  <div id="ar">
+			<nobr>
+			  <div id="loginInfo"><div class="lo gh"><a class="t0" href="http://arduino.cc/help/">Help</a></div> <div class="lo sep">|</div> <div class="lo"><a href="https://id.arduino.cc/auth/login/?returnurl=http%3A%2F%2Fwww.arduino.cc%2Fplayground%2FMain%2FCapSense">Sign in</a> or <a href="https://id.arduino.cc/auth/register/?returnurl=http%3A%2F%2Fwww.arduino.cc%2Fplayground%2FMain%2FCapSense">Register</a></div></div>
+			</nobr>
+		  </div>
+		</div>
+		<script>ssoGenerateNavigationBar('');</script>
+<div id="page">
+<!--PageHeaderFmt-->
+<div id="pageheader">
+  <div class="title"><a href="http://www.arduino.cc/"><div id="logo"></div></a> <a href="http://arduino.cc/playground"><div id="logo_tagline"></div></a></div>
+  <div class="search">
+    <!-- SiteSearch Google -->
+    <form method="GET" action="http://www.google.com/search">
+    <input name="ie" value="UTF-8" type="hidden">
+    <input name="oe" value="UTF-8" type="hidden">
+    <input name="q" size="25" maxlength="255" type="text">
+    <input name="btnG" value="search" type="submit">
+    <input name="domains" value="http://arduino.cc/playground" type="hidden">
+    <input name="sitesearch" value="http://arduino.cc/playground" type="hidden">
+    </form>
+    <!-- SiteSearch Google -->
+  </div>
+</div>
+<!--/PageHeaderFmt-->
+<!--PageLeftFmt-->
+<div id="pagenav">
+  <p><em>The <a class="wikilink" href="http://arduino.cc/playground/Main/HomePage">playground</a> is a publicly-editable wiki about <a class="urllink" href="http://www.arduino.cc/" rel="nofollow">Arduino</a>.</em>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/ManualsAndCurriculum">Manuals and Curriculum</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/ArduinoCoreHardware">Board Setup and Configuration</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/DevelopmentTools">Development Tools</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware">Interfacing With Hardware</a>
+</p><ul><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#Output">Output</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#InputTOC">Input</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#ui">User Interface</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#Storage">Storage</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#Communication">Communication</a> 
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/IntWithHW-PwrSup">Power supplies</a> 
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithHardware#General">General</a> 
+</li></ul><p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/InterfacingWithSoftware">Interfacing with Software</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/GeneralCodeLibrary">User Code Library</a>
+</p><ul><li><a class="wikilink" href="http://arduino.cc/playground/Main/SketchList">Snippets and Sketches</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/LibraryList">Libraries</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/TutorialList">Tutorials</a>
+</li></ul><p class="vspace"></p><p class="sidehead"><a class="urllink" href="http://code.google.com/p/arduino/issues/list" rel="nofollow">Suggestions &amp; Bugs</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/ElectroInfoResources">Electronics Technique</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/Resources">Sources for Electronic Parts</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/SimilarBoards">Related Hardware and Initiatives</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="urllink" href="http://www.arduino.cc/playground/Main/People" rel="nofollow">Arduino People/Groups &amp; Sites</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="urllink" href="http://www.arduino.cc/playground/Projects/ArduinoUsers" rel="nofollow">Exhibition</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="urllink" href="http://www.arduino.cc/playground/Projects/Ideas" rel="nofollow">Project Ideas</a>
+</p>
+<p class="vspace"></p><p class="sidehead"><a class="wikilink" href="http://arduino.cc/playground/Main/Languages">Languages</a>
+</p>
+<p class="vspace"></p><hr>
+<p class="vspace"></p><p class="sidehead"> <a class="wikilink" href="http://arduino.cc/playground/Main/Participate">PARTICIPATE</a>
+</p><ul><li><a class="urllink" href="http://code.google.com/p/arduino/issues/list" rel="nofollow">Suggestions</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/Participate#contribrules">Formatting guidelines</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Site/AllRecentChanges">All recent changes</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/PmWiki/PmWiki">PmWiki</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/Main/WikiSandbox">WikiSandBox training</a>
+</li><li><a class="wikilink" href="http://arduino.cc/playground/PmWiki/BasicEditing">Basic Editing</a>
+</li><li> <a target="_blank" class="urllink" href="http://www.pmwiki.org/wiki/Cookbook/CookbookBasics" rel="nofollow">Cookbook (addons)</a>
+</li><li> <a target="_blank" class="urllink" href="http://www.pmwiki.org/wiki/PmWiki/DocumentationIndex" rel="nofollow">Documentation index</a>
+</li></ul><p class="vspace"></p><hr>
+<p style="text-align: right;"> <span style="font-size:83%"><a class="wikilink" href="http://arduino.cc/playground/Site/SideBar?action=edit">edit SideBar</a></span>
+</p>
+
+</div>
+<!--/PageLeftFmt-->
+<!--PageActionFmt-->
+<div id="pageactions">
+  <!--Main.PageActions--> <!--Site.PageActions-->
+  
+</div>
+<!--/PageActionFmt-->
+<div id="pagetext">
+  <!--PageText-->
+<div id="wikitext">
+<h2>Capacitive Sensing Library</h2>
+<pre> by Paul Badger
+</pre>
+<p class="vspace"></p><h3>Download</h3>
+<p>Download <a class="urllink" href="http://arduino.cc/playground/uploads/Main/CapacitiveSense003.zip" rel="nofollow">CapacitiveSense003.zip</a> 
+</p>
+<p class="vspace"></p><h3>Overview</h3>
+<p>The capSense library turns two or more Arduino pins into a  
+capacitive sensor, which can sense the electrical capacitance of the 
+human body. All the sensor setup requires is a medium to high value 
+resistor and a piece of wire and a small (to large) piece of aluminum 
+foil on the end. At its most sensitive, the sensor will start to sense a
+ hand or body inches away from the sensor.
+</p>
+<p class="vspace"></p><p>The current version of the library (03) has 
+been updated to C++ and supports multiple inputs. It also includes some 
+utility functions to make it convenient to change timeout values.
+</p>
+<p class="vspace"></p><h3>Applications</h3>
+<p>Capacitive sensing may be used in any place where low to no force 
+human touch sensing is desirable. An Arduino and the library may be used
+ to sense human touch through more than a quarter of an inch of plastic,
+ wood, ceramic or other insulating material (not any kind of metal 
+though), enabling the sensor to be completely visually concealed.
+</p>
+<p class="vspace"></p><p>A capacitive sensor covered with paper or other
+ insulator also acts as fairly good (human touch) pressure sensor with 
+an approximately logarithmic response. In this regard it may surpass 
+force sensing resistors in some applications.
+</p>
+<p class="vspace"></p><h3>How it works</h3>
+<div><img src="CapSense_files/CapSense.gif" alt="" title=""></div>
+<p class="vspace"></p><p>The capSense method toggles a microcontroller <em>send</em> pin to a new state and then waits for the <em>receive</em> pin to change to the same state as the send pin. A variable is incremented inside a <em>while</em> loop to time the receive pin's state change. The method then reports the variable's value, which is in arbitrary units.
+</p>
+<p class="vspace"></p><p>The physical setup includes a medium to high 
+value (100 kilohm - 50 megohm) resistor between the send pin and the 
+receive (sensor) pin. The receive pin is the sensor terminal. A wire 
+connected to this pin with a piece of foil at the end makes a good 
+sensor. For many applications, a more useful range of values is obtained
+ if the sensor is covered with paper, plastic, or another insulating 
+material, so that users do not actually touch the metal foil. Research 
+has shown that a small capacitor (100 pF) or so from sensor pin to 
+ground improves stability and repeatability.
+</p>
+<p class="vspace"></p><p>When the send pin changes state, it will 
+eventually change the state of the receive pin. The delay between the 
+send pin changing and the receive pin changing is determined by an RC 
+time constant, defined by R * C, where R is the value of the resistor 
+and C is the capacitance at the receive pin, plus any other capacitance 
+(e.g. human body interaction) present at the sensor (receive) pin. 
+Adding small capacitor (20 - 400 pF) in parallel with the body 
+capacitance, is highly desirable too, as it stabilizes the sensed 
+readings. 
+</p>
+<p class="vspace"></p><h3>Library Methods</h3>
+<p>The library contains three main methods and some utility methods:
+</p>
+<p class="vspace"></p><h4><span class="wikiword">CapSense</span> <span class="wikiword">CapSense</span>(byte sendPin, byte receivePin)</h4>
+<p><span class="wikiword">CapSense</span> creates an instance of the library (please note the capital letters, this is not the same method as below)
+</p>
+<p class="vspace"></p><h4>long capSenseRaw(byte samples)</h4>
+<p>capSenseRaw requires one parameter, <em>samples</em>, and returns a 
+long integer containing the absolute capacitance, in arbitrary units. 
+The samples parameter can be used to increase the returned resolution, 
+at the expense of slower performance. The returned value is not averaged
+ over the number of samples, and the total value is reported.
+</p>
+<p class="vspace"></p><p>capSenseRaw will return -2 if the capacitance value exceeds the value of  CS_Timeout_Millis (in milliseconds).
+The default value for CS_Timeout_Millis 2000 milliseconds (2 seconds).
+</p>
+<p class="vspace"></p><h4>long capSense(byte samples)</h4>
+<p>capSense requires one parameter, samples, and returns a long 
+containing the added (sensed) capacitance, in arbitrary units. capSense 
+keeps track of the lowest baseline (unsensed) capacitance, and subtracts
+ that from the sensed capacitance, so it should report a low value in 
+the unsensed condition. 
+</p>
+<p class="vspace"></p><p>The baseline is value is re-calibrated at 
+intervals determined by CS_Autocal_Millis. The default value is 200000 
+milliseconds (20 seconds). This re-calibration may be turned off by 
+setting CS_Autocal_Millis to a high value with the 
+set_CS_AutocaL_Millis() method.
+</p>
+<p class="vspace"></p><h4>void set_CS_Timeout_Millis(unsigned long timeout_millis);</h4>
+<p>The set_CS_Timeout_Millis method may be used to set the 
+CS_Timeout_Millis value, which determines how long the method will take 
+to timeout, if the receive (sense) pin fails to toggle in the same 
+direction as the send pin. A timeout is neccessary because a <em>while</em> loop will lock-up a sketch unless a timeout is provided. CS_Timeout_Millis' default value is 2000 milliseconds (2 seconds).
+</p>
+<p class="vspace"></p><h4>void reset_CS_AutoCal()</h4>
+<p>reset_CS_AutoCal may be used to force an immediate calibration of capSense function.
+</p>
+<p class="vspace"></p><h4>void set_CS_AutocaL_Millis(unsigned long autoCal_millis)</h4>
+<p>The method  set_CS_AutocaL_Millis(unsigned long autoCal_millis) may 
+be used to set the timeout interval of the capSense function. 
+Re-calibration may be turned off by using  set_CS_AutocaL_Millis to set 
+CS_AutocaL_Millis to "0xFFFFFFFF".
+</p>
+<p class="vspace"></p><h3>Resistor Choice</h3>
+<p>Here are some guidelines for resistors but be sure to experiment for a desired response.
+</p>
+<p class="vspace"></p><ul><li>Use a 1 megohm resistor (or less maybe) for absolute touch to activate.
+</li><li>With a 10 megohm resistor the sensor will start to respond 4-6 inches away.
+</li><li>With a 40 megohm resistor the sensor will start to respond 
+12-24 inches away (dependent on the foil size). Common resistor sizes 
+usually end at 10 megohm so you may have to solder four 10 megohm 
+resistors end to end.
+<p class="vspace"></p></li><li>One tradeoff with larger resistors is 
+that the sensor's increased sensitivity means that it is slower. Also if
+ the sensor is exposed metal, it is possible that the send pin will 
+never be able to force a change in the receive (sensor) pin, and the 
+sensor will timeout.
+<p class="vspace"></p></li><li>Also experiment with small capacitors (100 pF - .01 uF) to ground, on the sense pin. They improve stability of the sensor. 
+</li></ul><p class="vspace"></p><p>Note that the hardware can be set up 
+with one sPin and several resistors and rPin's for calls to various 
+capacitive sensors. See the example sketch.
+</p>
+<p class="vspace"></p><h3>Grounding and other known issues</h3>
+<p>The grounding of the Arduino board is very important in capacitive 
+sensing. The board needs to have some connection to ground, even if this
+ is not a low-impedance path such as a wire attached to a water pipe.
+</p>
+<p class="vspace"></p><p>Capacitive sensing has some quirks with laptops
+ unconnected to mains power. The laptop itself tends to become sensitive
+ and bringing a hand near the laptop will change the returned values. 
+</p>
+<p class="vspace"></p><p>Connecting the charging cord to the laptop will
+ usually be enough to get things working correctly. Connecting the 
+Arduino ground to an earth ground (for example, a water pipe) could be 
+another solution.
+</p>
+<p class="vspace"></p><p>Another solution that seems to have worked well
+ on at least one installation, is to run a foil ground plane under the 
+sensor foil (insulated by plastic, paper, etc.), and connected by a wire
+ to ground. This worked really well to stabilize sensor values and also 
+seemed to dramatically increase sensor sensitivity.
+</p>
+<p class="vspace"></p><h3>Scroll Wheels (well, slide pots anyway)</h3>
+<p>Experiments with a slide pot type linear sensor have been successful 
+with just two pins and a resistance ladder. The basic layout is shown in
+ the Quantum Scrollwheel sensor datasheet.
+</p>
+<p class="vspace"></p><p>The code uses this type of arrangement
+</p><pre>CapSense Left32  = CapSense(3, 2); // wire from pin 2 to left side of resistor ladder\
+CapSense Right23 = CapSense(2, 3); // wire from pin 3 to right side of resistor ladder
+</pre>
+<p class="vspace"></p><p>Where the pins switch their send and receive 
+positions. With a linear resistance ladder, a finger closer to the send 
+pin will report lower values because resistance downstream from the 
+capacitance is basically out of the circuit.
+</p>
+<p class="vspace"></p><p>So in this manner when a finger is moved from 
+one pin to the other the two calls to capSenseRaw will report 
+complementary  values that have an approximately constant value to them.
+ The complication comes in when trying to deal with how much contact 
+(capacitance) is present, which raises (or lowers) both values, but not 
+necessarily in a linear manner.
+</p>
+<p class="vspace"></p><p>At some point I'll get the sketch posted here.
+</p>
+<p class="vspace"></p><h3>Error Messages</h3>
+<p>capSense and capSenseRaw will return -1 with an invalid choice of pin
+ parameter, but it appears that this feature is not working at this 
+writing. Engineers are working on this, stand by...
+</p>
+<p class="vspace"></p><p>capSense and capSenseRaw will return -2 if the 
+methods timeout. This is caused by the count exceeding the value of 
+CS_Timeout_Millis, which is set at a default value of 2000 milliseconds 
+(2 seconds). This is most often caused by a missing resistor or the 
+resistor in the wrong pin. It could also be caused by a sensor that is 
+grounded or connected to +5 V. 
+</p>
+<p class="vspace"></p><p>A timeout is necessary because the <em>while</em> loop that does the timing in the <span class="wikiword">CapSense</span>
+ method, will lock-up the sketch (the function will never return) if, 
+for example, the resistor between sendPin and receivePin becomes 
+disconnected.
+</p>
+<p class="vspace"></p><h4>Installation</h4>
+<ul><li>Download <a class="urllink" href="http://arduino.cc/playground/uploads/Main/CapacitiveSense003.zip" rel="nofollow">CapacitiveSense003.zip</a> 
+</li><li>Unzip, and add to Arduino/hardware/libraries/
+</li><li>To add capSense to a new sketch choose Sketch-&gt;Import Library-&gt;<span class="wikiword">CapSense</span>
+</li></ul><p class="vspace"></p><h4>Demo Sketch</h4>
+<pre>#include &lt;CapSense.h&gt;
+
+/*
+ * CapitiveSense Library Demo Sketch
+ * Paul Badger 2008
+ * Uses a high value resistor e.g. 10 megohm between send pin and receive pin
+ * Resistor effects sensitivity, experiment with values, 50 kilohm - 50 megohm. Larger resistor values yield larger sensor values.
+ * Receive pin is the sensor pin - try different amounts of foil/metal on this pin
+ * Best results are obtained if sensor foil and wire is covered with an insulator such as paper or plastic sheet
+ */
+
+
+CapSense   cs_4_2 = CapSense(4,2);        // 10 megohm resistor between pins 4 &amp; 2, pin 2 is sensor pin, add wire, foil
+CapSense   cs_4_5 = CapSense(4,5);        // 10 megohm resistor between pins 4 &amp; 6, pin 6 is sensor pin, add wire, foil
+CapSense   cs_4_8 = CapSense(4,8);        // 10 megohm resistor between pins 4 &amp; 8, pin 8 is sensor pin, add wire, foil
+
+void setup()                    
+{
+
+   cs_4_2.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
+   Serial.begin(9600);
+
+}
+
+void loop()                    
+{
+    long start = millis();
+    long total1 =  cs_4_2.capSense(30);
+    long total2 =  cs_4_5.capSense(30);
+    long total3 =  cs_4_8.capSense(30);
+
+    Serial.print(millis() - start);        // check on performance in milliseconds
+    Serial.print("\t");                    // tab character for debug windown spacing
+
+    Serial.print(total1);                  // print sensor output 1
+    Serial.print("\t");
+    Serial.print(total2);                  // print sensor output 2
+    Serial.print("\t");
+    Serial.println(total3);                // print sensor output 3
+
+    delay(10);                             // arbitrary delay to limit data to serial port 
+}
+
+
+</pre>
+<p class="vspace"></p><h4>Bugs, suggestions, applications</h4>
+<p>Please post bugs, suggestions, amazing feats on this <a class="urllink" href="http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1227388576/0" rel="nofollow">forum thread</a>
+</p>
+<p class="vspace"></p><p><a class="urllink" href="http://arduino.cc/en/Reference/Libraries" rel="nofollow">Reference/Libraries</a>
+</p>
+</div>
+
+
+<!-- AddThis Button BEGIN -->       
+<script type="text/javascript">var addthis_language = "en";      
+</script>       
+<div class="addthis_container addthis_toolbox addthis_default_style" addthis:url="http://arduino.cc/playground/Main/CapSense" addthis:title="Arduino Playground">
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=arduinoteam" class="addthis_button_compact">Share</a><span class="addthis_separator">|</span><a class="addthis_button_email"></a><a class="addthis_button_favorites"></a><a class="addthis_button_print"></a><a class="addthis_button_facebook"></a><a class="addthis_button_twitter"></a><script type="text/javascript" src="CapSense_files/addthis_widget.js"></script></div>       
+<!-- AddThis Button END -->       
+
+
+</div>
+<!--PageFooterFmt-->
+<div id="pagefooter">
+</div>
+<!--/PageFooterFmt-->
+</div>
+
+
+</body></html>

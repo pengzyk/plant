@@ -1,0 +1,99 @@
+#mainProductBox {
+margin: 0 auto;
+padding: 0;
+}
+#imagebox {
+margin:0;
+padding:0;
+width:20%;
+float:left;
+}
+#productMainImage {
+margin:1.5em 0em 2em 0;
+}
+#productbox {
+margin:0;
+padding:0;
+width:52%;
+float:right;
+}
+h1#productName {
+margin:0;
+padding:0;
+font-weight:700;
+text-align:center;
+}
+#productDescription {
+margin:0;
+padding:0 0 2px 0;
+line-height:1.5em;
+font-weight: 100;
+}
+#productPrices {
+margin:0;
+padding: 2px 0;
+font-weight:700;
+text-align:left;
+}
+#productDetailsList {
+margin: 0;
+padding:0;
+list-style: none;
+}
+#productDetailsList ul {
+margin: 0;
+padding:0;
+list-style: none;
+}
+#productDetailsList ul li {
+padding:3px 0 3px 3px;
+}
+#freeShippingIcon {
+width:50%;
+height:54px;
+}
+#productPurchaseBox {
+margin: 0;
+float:left;
+width:48%;
+}
+#buybox {
+margin:0;
+padding:3px;
+/*width:45%;*/
+text-align:center;
+/*float:right;*/
+}
+.wrapperAttribsOptions {
+margin:0.3em 0;
+text-align:left;
+}
+#attribsOptionsText {
+margin:0;
+padding:0.5em 5px;
+text-align:center;
+}
+.optionName {
+margin:0;
+color:#580c84;
+font-weight:700;
+padding-left:3px;
+text-align:left;
+width:10em;
+}
+#cartAdd {
+margin:1em;
+padding:3px;
+font-size:1em;
+text-align:center;
+}
+#cartImage {
+margin:0.5em 1em;
+}
+
+#QuantityDiscountsBox {
+margin: 0;
+padding: 0;
+width: 20%;
+/*float: left;*/
+}
