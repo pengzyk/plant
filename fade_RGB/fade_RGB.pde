@@ -73,8 +73,8 @@ void hibernate() {
     We want it to appear to breathe
   */
   eventReset();
-  color(0,0,110,20);
-  Events.addHandler(fade_out, 40, 2000);
+  color(255,255,255,100);
+ // Events.addHandler(fade_out, 40, 2000);
 }
 
 void fade_out(){
