@@ -13,10 +13,12 @@
 using namespace Aiko;
 
 int MOOD = 0; //0 - 100%
-long MOODDECREASE = 10; //in minutes, amount of time to get sad.
-long MOODINCREASE = 1; //in minutes, the amount of interaction time needed
+long MOODDECREASE = 320; //in seconds, amount of time to get sad from 100%
+long MOODINCREASE = 60; //in seconds, the amount of interaction time needed to "charge"
 int SENSITIVITY = 100; //adjust this for setting people limits.
 int MAX_BRIGHTNESS = 60; //0-100%  - we've had heat problems.
+
+
 
 /*
   Helps to use a Mega 2650 - with a heatsink!
@@ -51,10 +53,33 @@ int SensorRX = 23;
 void setup() {
   Serial.begin(9600);
   Events.addHandler(setColor, 30); //this does the fading..see end of code.
+  Events.addHandler(sadly, (MOODDECREASE/MOOD) * 1000); //get sad function 
+  Events.addHandler(pauls, 1000);
 }
 
 void loop() {
   Events.loop();
+}
+
+
+void pauls() {
+  lightLIGHT(0,255,255,255,100);
+  delay(100);
+  lightLIGHT(1,255,255,255,100);
+  delay(100);
+  lightLIGHT(2,255,255,255,100);
+  delay(300);
+  lightsOFF();
+}
+
+/*
+  the mood changer, very simple.
+*/
+void sadly() {
+  if (MOOD >0) {
+    MOOD--;
+    moodstatus();
+  }
 }
 
 /* 
@@ -77,13 +102,8 @@ void color(int light, int red, int green, int blue, int intensity) {
   LEDTARGET[light][3] = intensity;
 }
 
-
-
-
-
-
-
-
+void moodstatus() {
+}
 
 /* dont adjust this unless you know when you're doing */
 
@@ -114,6 +134,48 @@ void setColor() {
     analogWrite(LED[i][2], LEDCOLOR[i][2]);
   }
  
+}
+
+void lightLIGHT(int light, int red, int green, int blue, int intensity) {
+  /*
+    another overriding show of colors
+  */
+  if (intensity > MAX_BRIGHTNESS) { intensity = MAX_BRIGHTNESS; }
+  if (red > 0) { red = (red/100)*intensity; }
+  if (green > 0) { green = (green/100)*intensity; }
+  if (blue > 0) { blue = (blue/100)*intensity;  }
+    
+  LEDTARGET[light][0] = red; 
+  LEDTARGET[light][1] = green;
+  LEDTARGET[light][2] = blue;
+  LEDTARGET[light][3] = intensity;
+  
+  LEDCOLOR[light][0] = 0;
+  LEDCOLOR[light][1] = 0;
+  LEDCOLOR[light][2] = 0;
+}
+
+void lightsOFF() {
+  /*
+    turns all lights off immediatly and sets 
+    the position so we dont have to change setColor();
+  */
+  for(int i=0; i< 3; i++) {
+    LEDCOLOR[i][0] = 0;
+    LEDTARGET[i][0] = 0;
+    
+    LEDCOLOR[i][1] = 0;
+    LEDTARGET[i][1] = 0;
+    
+    LEDCOLOR[i][2] = 0;
+    LEDTARGET[i][2] = 0;
+    
+    LEDTARGET[i][3] = 0; // intensity
+    
+    analogWrite(LED[i][0], LEDCOLOR[i][0]);
+    analogWrite(LED[i][1], LEDCOLOR[i][1]);
+    analogWrite(LED[i][2], LEDCOLOR[i][2]);
+  }
 }
 
 void eventReset() {
