@@ -10,7 +10,7 @@
  */
 
 
-CapSense   cs_4_2 = CapSense(24,26);        // 10 megohm resistor between pins 4 & 2, pin 2 is sensor pin, add wire, foil
+CapSense   cs_4_2 = CapSense(51,23);        // 10 megohm resistor between pins 4 & 2, pin 2 is sensor pin, add wire, foil
 //CapSense   cs_4_5 = CapSense(4,5);        // 10 megohm resistor between pins 4 & 6, pin 6 is sensor pin, add wire, foil
 //CapSense   cs_4_8 = CapSense(4,8);        // 10 megohm resistor between pins 4 & 8, pin 8 is sensor pin, add wire, foil
 
