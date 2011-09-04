@@ -16,31 +16,8 @@ WaveHC wave;      // This is the only wave (audio) object, since we will only pl
 
 #define DEBOUNCE 100  // button debouncer
 
-// this handy function will return the number of bytes currently free in RAM, great for debugging!   
-int freeRam(void)
-{
-  extern int  __bss_end; 
-  extern int  *__brkval; 
-  int free_memory; 
-  if((int)__brkval == 0) {
-    free_memory = ((int)&free_memory) - ((int)&__bss_end); 
-  }
-  else {
-    free_memory = ((int)&free_memory) - ((int)__brkval); 
-  }
-  return free_memory; 
-} 
-
-void sdErrorCheck(void)
-{
-  if (!card.errorCode()) return;
-  putstring("\n\rSD I/O error: ");
-  Serial.print(card.errorCode(), HEX);
-  putstring(", ");
-  Serial.println(card.errorData(), HEX);
-  while(1);
-}
-
+ int c; 
+ 
 void setup() {
   // set up serial port
   Serial.begin(9600);
@@ -55,9 +32,6 @@ void setup() {
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
  
-  // pin13 LED
- // pinMode(13, OUTPUT);
-
  
   //  if (!card.init(true)) { //play with 4 MHz spi if 8MHz isn't working for you
   if (!card.init()) {         //play with 8 MHz spi (default faster!)  
@@ -96,29 +70,156 @@ void setup() {
   // Whew! We got past the tough parts.
   putstring_nl("Ready!");
   
-  Wire.begin(2);                // join i2c bus with address #4
-  Wire.onReceive(receiveEvent); // register event
+  Wire.begin();                
+
+
 }
 
 void loop() {
-
+  
+  /* we're going to poll for events */
+  int data=0;
+   Wire.requestFrom(2, 4); 
+   while(Wire.available())  {
+    data = Wire.receive();       
+   }
+  audio(data); //up to 11 methods.
+  delay(1000);
 }
 
-byte check_switches()
-{
+void audio(int data) {
+  static int previousData = 0;
+  static boolean interuptable = true;
+  static int track = 6;
+  char* audiofiles[track];
+   
+  switch (data) {
+     case 0:
+      /* bored */
+        audiofiles[0] = "00_00.WAV";
+        audiofiles[1] = "00_01.WAV";
+        audiofiles[2] = "00_02.WAV";
+        audiofiles[3] = "00_03.WAV";
+        audiofiles[4] = "00_04.WAV";
+        audiofiles[5] = "00_05.WAV";
+     break;
+     case 2:
 
-}
+        audiofiles[0] = "20_00.WAV";
+        audiofiles[1] = "20_01.WAV";
+        audiofiles[2] = "20_02.WAV";
+        audiofiles[3] = "20_03.WAV";
+        audiofiles[4] = "20_04.WAV";
+        audiofiles[5] = "20_05.WAV";
+     break;
+     case 4:
 
+        audiofiles[0] = "40_00.WAV";
+        audiofiles[1] = "40_01.WAV";
+        audiofiles[2] = "40_02.WAV";
+        audiofiles[3] = "40_03.WAV";
+        audiofiles[4] = "40_04.WAV";
+        audiofiles[5] = "40_05.WAV";
+     break;
+     case 6: 
 
-// Plays a full file from beginning to end with no pause.
-void playcomplete(char *name) {
-  // call our helper to find and play this name
-  playfile(name);
-  while (wave.isplaying) {
-  // do nothing while its playing
+        audiofiles[0] = "60_00.WAV";
+        audiofiles[1] = "60_01.WAV";
+        audiofiles[2] = "60_02.WAV";
+        audiofiles[3] = "60_03.WAV";
+        audiofiles[4] = "60_04.WAV";
+        audiofiles[5] = "60_05.WAV";
+     break;
+     case 8: 
+
+        audiofiles[0] = "80_00.WAV";
+        audiofiles[1] = "80_01.WAV";
+        audiofiles[2] = "80_02.WAV";
+        audiofiles[3] = "80_03.WAV";
+        audiofiles[4] = "80_04.WAV";
+        audiofiles[5] = "80_05.WAV";
+     break;
+     case 10:
+
+        audiofiles[0] = "100_00.WAV";
+        audiofiles[1] = "100_01.WAV";
+        audiofiles[2] = "100_02.WAV";
+        audiofiles[3] = "100_03.WAV";
+        audiofiles[4] = "100_04.WAV";
+        audiofiles[5] = "100_05.WAV";
+     break;
+     case 11:
+    /* hyper happy */
+        audiofiles[0] = "110_00.WAV";
+        audiofiles[1] = "110_01.WAV";
+        audiofiles[2] = "110_02.WAV";
+        audiofiles[3] = "110_03.WAV";
+        audiofiles[4] = "110_04.WAV";
+        audiofiles[5] = "110_05.WAV";
+     break;
+     case 12:
+     /* Angry */
+
+        audiofiles[0] = "120_00.WAV";
+        audiofiles[1] = "120_01.WAV";
+        audiofiles[2] = "120_02.WAV";
+        audiofiles[3] = "120_03.WAV";
+        audiofiles[4] = "120_04.WAV";
+        audiofiles[5] = "120_05.WAV";
+     break;
+     default:
+
+        audiofiles[0] = "00_00.WAV";
+        audiofiles[1] = "00_01.WAV";
+        audiofiles[2] = "00_02.WAV";
+        audiofiles[3] = "00_03.WAV";
+        audiofiles[4] = "00_04.WAV";
+        audiofiles[5] = "00_05.WAV";
   }
-  // now its done playing
+
+
+
+  if (data == previousData) {
+    /* nothing has changed.. maybe play a random one.. */
+    if (!wave.isplaying) {
+      interuptable = true;
+      if (random(10) == 0) {
+        int rand = random(6);
+        if (rand > 0) {
+          interuptable = false;
+        } 
+        playfile(audiofiles[rand]);
+      } 
+      
+    }
+  } else {
+    if (wave.isplaying && interuptable) {
+      interuptable = true;
+      if (random(10) == 0) {
+        int rand = random(6);
+        if (rand > 0) {
+          interuptable = false;
+        } 
+        playfile(audiofiles[rand]);
+      } 
+    }
+    if (wave.isplaying && !interuptable) {
+      //nope cannot interupt the audio
+    }
+    if (!wave.isplaying) {
+      interuptable = true;
+      if (random(10) == 0) {
+        int rand = random(6);
+        if (rand > 0) {
+          interuptable = false;
+        } 
+        playfile(audiofiles[rand]);
+      } 
+    }
+  }
+  previousData = data; //we want to compare.
 }
+
 
 void playfile(char *name) {
   // see if the wave object is currently doing something
@@ -138,22 +239,33 @@ void playfile(char *name) {
   wave.play();
 }
 
-void receiveEvent(int howMany)
+/* borring stuff */
+
+
+
+
+// this handy function will return the number of bytes currently free in RAM, great for debugging!   
+int freeRam(void)
 {
- /*
-   TODO: find out why we are transfering a dirty character :/
- */
-   char c[howMany];
-  int i = 0;
-  
-  while(Wire.available()) // loop through all but the last
-  {
-    
-    c[i] = char(Wire.receive()); // receive byte as a character
-     i++;
+  extern int  __bss_end; 
+  extern int  *__brkval; 
+  int free_memory; 
+  if((int)__brkval == 0) {
+    free_memory = ((int)&free_memory) - ((int)&__bss_end); 
   }
+  else {
+    free_memory = ((int)&free_memory) - ((int)__brkval); 
+  }
+  return free_memory; 
+} 
 
- Serial.println(c);
-
-
+void sdErrorCheck(void)
+{
+  if (!card.errorCode()) return;
+  putstring("\n\rSD I/O error: ");
+  Serial.print(card.errorCode(), HEX);
+  putstring(", ");
+  Serial.println(card.errorData(), HEX);
+  while(1);
 }
+

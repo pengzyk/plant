@@ -12,6 +12,8 @@
 #include <AikoEvents.h>
 using namespace Aiko;
 
+#include <Wire.h> //need this for communication
+
 int MOOD = 0; //0 - 100%
 long MOODDECREASE = 320; //in seconds, amount of time to get sad from 100%
 long MOODINCREASE = 60; //in seconds, the amount of interaction time needed to "charge"
@@ -52,9 +54,14 @@ int SensorRX = 23;
 
 void setup() {
   Serial.begin(9600);
+
   Events.addHandler(setColor, 30); //this does the fading..see end of code.
   Events.addHandler(sadly, (MOODDECREASE/MOOD) * 1000); //get sad function 
   Events.addHandler(pauls, 1000);
+  
+  //could be needy this next part
+  Wire.begin(2);               
+  Wire.onRequest(requestEvent); 
 }
 
 void loop() {
@@ -181,5 +188,17 @@ void lightsOFF() {
 void eventReset() {
   Events.reset();
   Events.addHandler(setColor, 30);
+}
+
+void requestEvent() {
+  /*
+  send: AABB
+  
+  AA = ground
+  BB = file if (BB==00) then this is the sound, 
+          and is interuptable on the otherside.. will ask for changes
+  */
+  Wire.send("0000"); 
+  Serial.println("sent new data");
 }
 
