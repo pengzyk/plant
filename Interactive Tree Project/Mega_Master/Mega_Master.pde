@@ -2,10 +2,6 @@
   Interactive Tree project by Ziyun Peng and Paul Adams.
   pengzyk@gmail.com & nihaopaul@gmail.com - All rights reserved
 
-  Get the Aiko package on mac:
-  
-  1. cd /Applications/Arduino.app/Contents/Resources/Java/libraries
-  2. git clone git://github.com/geekscape/aiko_arduino.git
 
 */
 
@@ -15,9 +11,12 @@ using namespace Aiko;
 #include <Wire.h> //need this for communication
 
 
-int MOOD = 0; //0 - 100%
-long MOODDECREASE = 320; //in seconds, amount of time to get sad from 100%
-long MOODINCREASE = 60; //in seconds, the amount of interaction time needed to "charge"
+float MOOD = 0; //0 - 100% (should be 100% but we have added an additional state.. angry)
+long MOODDECREASE = 200; // 
+long MOODINCREASE = 50; /*  in milliseconds, we need to set this and adjust as needed.. 
+                            since we know we're calling it every 50ms but also doing sample smoothing..
+                            Trial by error
+                        */
 int SENSITIVITY = 100; //adjust this for setting people limits.
 int MAX_BRIGHTNESS = 60; //0-100%  - we've had heat problems.
 
@@ -62,8 +61,9 @@ void setup() {
   Serial.begin(9600);
 
   Events.addHandler(setColor, 30); //this does the fading..see end of code.
-  Events.addHandler(sadly, (MOODDECREASE/MOOD) * 1000); //get sad function 
-  Events.addHandler(smoothing, 50);
+  Events.addHandler(sadly, MOODDECREASE); //get sad function 
+  Events.addHandler(smoothing, MOODINCREASE); //get happy function
+  Events.addHandler(printout, 100);
   
   //could be needy this next part
   Wire.begin(2);               
@@ -96,11 +96,14 @@ void smoothing() {
 
   long oldreading = average;
   average = total / numReadings; 
-  /* filter some noise */
+  
+  
+  /* filter some noise and auto-calibrate ourselves */
   
   if (average - calibration > 20 || average - calibration < -20) {
    i++;
-   if (i > 100) {
+   /* arbitary number which has no relative meaning, this stops us from always calibrating */
+   if (i > 3600) {
     Serial.println("\t - Calibration in progress -");
     calibration = oldreading;
     Serial.print("\t OFFSET: \t \t");
@@ -115,34 +118,26 @@ void smoothing() {
     };
   }
 
+
   plantActivity = average - calibration;
-  Serial.println(plantActivity);
+  
+  moodstatus(plantActivity);
+  //Serial.println(plantActivity);
 
 }
 
 void sensor() {
-   
-    Serial.println(average);                  // print sensor output 1
-
+  Serial.println(average);                  // print sensor output 1
 }
 
-void pauls() {
-  lightLIGHT(0,255,255,255,100);
-  delay(100);
-  lightLIGHT(1,255,255,255,100);
-  delay(100);
-  lightLIGHT(2,255,255,255,100);
-  delay(300);
-  lightsOFF();
-}
+
 
 /*
   the mood changer, very simple.
 */
 void sadly() {
   if (MOOD >0) {
-    MOOD--;
-    moodstatus();
+    MOOD = MOOD - 0.1;
   }
 }
 
@@ -165,8 +160,33 @@ void color(int light, int red, int green, int blue, int intensity) {
   LEDTARGET[light][2] = blue;
   LEDTARGET[light][3] = intensity;
 }
-
-void moodstatus() {
+void printout() {
+  int i = MOOD/10;
+  Serial.println("==MOOD Adjustment====");
+  Serial.print("0% ");
+  for (int j=0; j< i; j++) {
+    Serial.print("=");
+  }
+  Serial.print(" ");
+   Serial.print(MOOD);
+  Serial.println("%");
+  Serial.println("");
+  Serial.println("");
+    Serial.println("");
+      Serial.println("");
+}
+void moodstatus(long moodAdjustment) {
+  static long jump = 0;
+  if (moodAdjustment > 60 && MOOD <110) {
+    MOOD= MOOD + 0.2;
+  }
+  
+   //need this here
+  /* too many people detector */
+  if (moodAdjustment - jump > SENSITIVITY) {
+    MOOD = 130;
+  }
+  jump = moodAdjustment;
 }
 
 /* dont adjust this unless you know when you're doing */
