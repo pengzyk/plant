@@ -14,9 +14,10 @@ FatReader f;      // This holds the information for the file we're play
 
 WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
 
-#define DEBOUNCE 100  // button debouncer
 
- int c; 
+int c;  
+
+ 
  
 void setup() {
   // set up serial port
@@ -70,21 +71,22 @@ void setup() {
   // Whew! We got past the tough parts.
   putstring_nl("Ready!");
   
-  Wire.begin();                
+ // Wire.begin();                
 
 
 }
 
 void loop() {
-  
+ 
   /* we're going to poll for events */
   int data=0;
    Wire.requestFrom(2, 4); 
    while(Wire.available())  {
     data = Wire.receive();       
    }
-  audio(data); //up to 11 methods.
+  audio(data);
   delay(300);
+
 }
 
 void audio(int data) {
@@ -92,89 +94,80 @@ void audio(int data) {
   static boolean interuptable = true;
   static int track = 6;
   char* audiofiles[track];
-   
   switch (data) {
-     case 0:
-      /* bored */
-        audiofiles[0] = "00_00.WAV";
-        audiofiles[1] = "00_01.WAV";
-        audiofiles[2] = "00_02.WAV";
-        audiofiles[3] = "00_03.WAV";
-        audiofiles[4] = "00_04.WAV";
-        audiofiles[5] = "00_05.WAV";
-     break;
+
      case 2:
 
-        audiofiles[0] = "20_00.WAV";
-        audiofiles[1] = "20_01.WAV";
-        audiofiles[2] = "20_02.WAV";
-        audiofiles[3] = "20_03.WAV";
-        audiofiles[4] = "20_04.WAV";
-        audiofiles[5] = "20_05.WAV";
+        audiofiles[0] = "20_00";
+        audiofiles[1] = "20_01";
+        audiofiles[2] = "20_02";
+        audiofiles[3] = "20_03";
+        audiofiles[4] = "20_04";
+        audiofiles[5] = "20_05";
      break;
      case 4:
 
-        audiofiles[0] = "40_00.WAV";
-        audiofiles[1] = "40_01.WAV";
-        audiofiles[2] = "40_02.WAV";
-        audiofiles[3] = "40_03.WAV";
-        audiofiles[4] = "40_04.WAV";
-        audiofiles[5] = "40_05.WAV";
+        audiofiles[0] = "40_00";
+        audiofiles[1] = "40_01";
+        audiofiles[2] = "40_02";
+        audiofiles[3] = "40_03";
+        audiofiles[4] = "40_04";
+        audiofiles[5] = "40_05";
      break;
      case 6: 
 
-        audiofiles[0] = "60_00.WAV";
-        audiofiles[1] = "60_01.WAV";
-        audiofiles[2] = "60_02.WAV";
-        audiofiles[3] = "60_03.WAV";
-        audiofiles[4] = "60_04.WAV";
-        audiofiles[5] = "60_05.WAV";
+        audiofiles[0] = "60_00";
+        audiofiles[1] = "60_01";
+        audiofiles[2] = "60_02";
+        audiofiles[3] = "60_03";
+        audiofiles[4] = "60_04";
+        audiofiles[5] = "60_05";
      break;
      case 8: 
 
-        audiofiles[0] = "80_00.WAV";
-        audiofiles[1] = "80_01.WAV";
-        audiofiles[2] = "80_02.WAV";
-        audiofiles[3] = "80_03.WAV";
-        audiofiles[4] = "80_04.WAV";
-        audiofiles[5] = "80_05.WAV";
+        audiofiles[0] = "80_00";
+        audiofiles[1] = "80_01";
+        audiofiles[2] = "80_02";
+        audiofiles[3] = "80_03";
+        audiofiles[4] = "80_04";
+        audiofiles[5] = "80_05";
      break;
      case 10:
 
-        audiofiles[0] = "100_00.WAV";
-        audiofiles[1] = "100_01.WAV";
-        audiofiles[2] = "100_02.WAV";
-        audiofiles[3] = "100_03.WAV";
-        audiofiles[4] = "100_04.WAV";
-        audiofiles[5] = "100_05.WAV";
+        audiofiles[0] = "100_00";
+        audiofiles[1] = "100_01";
+        audiofiles[2] = "100_02";
+        audiofiles[3] = "100_03";
+        audiofiles[4] = "100_04";
+        audiofiles[5] = "100_05";
      break;
      case 11:
     /* hyper happy */
-        audiofiles[0] = "110_00.WAV";
-        audiofiles[1] = "110_01.WAV";
-        audiofiles[2] = "110_02.WAV";
-        audiofiles[3] = "110_03.WAV";
-        audiofiles[4] = "110_04.WAV";
-        audiofiles[5] = "110_05.WAV";
+        audiofiles[0] = "110_00";
+        audiofiles[1] = "110_01";
+        audiofiles[2] = "110_02";
+        audiofiles[3] = "110_03";
+        audiofiles[4] = "110_04";
+        audiofiles[5] = "110_05";
      break;
      case 12:
      /* Angry */
 
-        audiofiles[0] = "120_00.WAV";
-        audiofiles[1] = "120_01.WAV";
-        audiofiles[2] = "120_02.WAV";
-        audiofiles[3] = "120_03.WAV";
-        audiofiles[4] = "120_04.WAV";
-        audiofiles[5] = "120_05.WAV";
+        audiofiles[0] = "120_00";
+        audiofiles[1] = "120_01";
+        audiofiles[2] = "120_02";
+        audiofiles[3] = "120_03";
+        audiofiles[4] = "120_04";
+        audiofiles[5] = "120_05";
      break;
      default:
 
-        audiofiles[0] = "00_00.WAV";
-        audiofiles[1] = "00_01.WAV";
-        audiofiles[2] = "00_02.WAV";
-        audiofiles[3] = "00_03.WAV";
-        audiofiles[4] = "00_04.WAV";
-        audiofiles[5] = "00_05.WAV";
+        audiofiles[0] = "00_00";
+        audiofiles[1] = "00_01";
+        audiofiles[2] = "00_02";
+        audiofiles[3] = "00_03";
+        audiofiles[4] = "00_04";
+        audiofiles[5] = "00_05";
   }
 
 
@@ -188,7 +181,8 @@ void audio(int data) {
         if (rand > 0) {
           interuptable = false;
         } 
-        playfile(audiofiles[rand]);
+
+       playfile(audiofiles[rand]);
       } 
       
     }
@@ -213,22 +207,30 @@ void audio(int data) {
         if (rand > 0) {
           interuptable = false;
         } 
+
         playfile(audiofiles[rand]);
       } 
     }
   }
+  free(audiofiles);
   previousData = data; //we want to compare.
 }
 
 
 void playfile(char *name) {
+  /*
+  TODO: lio says this is why it's eating ram and diing. fix it!
+  */
+  name = strcat( name,  (char*) ".WAV");
+
+
   // see if the wave object is currently doing something
   if (wave.isplaying) {// already playing something, so stop it!
     wave.stop(); // stop it
   }
   // look in the root directory and open the file
   if (!f.open(root, name)) {
-    putstring("Couldn't open file "); Serial.print(name); return;
+    putstring("Couldn't open file "); Serial.println(name); return;
   }
   // OK read the file and turn it into a wave object
   if (!wave.create(f)) {
@@ -240,13 +242,10 @@ void playfile(char *name) {
 }
 
 /* borring stuff */
-
-
-
-
-// this handy function will return the number of bytes currently free in RAM, great for debugging!   
-int freeRam(void)
-{
+ 
+ 
+ // this handy function will return the number of bytes currently free in RAM, great for debugging!   
+int freeRam(void){
   extern int  __bss_end; 
   extern int  *__brkval; 
   int free_memory; 
@@ -268,4 +267,10 @@ void sdErrorCheck(void)
   Serial.println(card.errorData(), HEX);
   while(1);
 }
+
+ 
+ 
+ 
+
+
 
