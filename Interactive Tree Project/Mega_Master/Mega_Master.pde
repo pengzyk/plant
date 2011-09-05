@@ -21,6 +21,8 @@ long MOODINCREASE = 50; /*  in milliseconds, we need to set this and adjust as n
 int SENSITIVITY = 100; //adjust this for setting people limits.
 int MAX_BRIGHTNESS = 60; //0-100%  - we've had heat problems.
 
+static boolean pauselights = false;
+
 
 
 /*
@@ -270,19 +272,19 @@ int eventMagic() {
   if (MOOD < 40) {
     return 2;
   }
-    if (MOOD < 60) {
+  if (MOOD < 60) {
     return 4;
   }
-    if (MOOD < 80) {
+  if (MOOD < 80) {
     return 6;
   }
-    if (MOOD < 100) {
+  if (MOOD < 100) {
     return 8;
   }
-    if (MOOD < 110) {
+  if (MOOD < 110) {
     return 10;
   }
-    if (MOOD < 120) {
+  if (MOOD < 120) {
     return 11;
   }
   return 12;
@@ -293,3 +295,22 @@ void requestEvent() {
   Wire.send(eventMagic()); 
 }
 
+
+/* light shows */
+void light_0() {
+ // Events.addOneShotHandler(lightLIGHT(1,2,3,4,5), 1000);
+}
+void light_20() {
+}
+void light_40() {
+}
+void light_60() {
+}
+void light_80() {
+}
+void light_100() {
+}
+void light_110() {
+}
+void light_120() {
+}

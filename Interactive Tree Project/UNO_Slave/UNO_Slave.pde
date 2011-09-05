@@ -15,8 +15,6 @@ FatReader f;      // This holds the information for the file we're play
 WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
 
 
-int c;  
-
  
  
 void setup() {
@@ -79,7 +77,7 @@ void setup() {
 void loop() {
  
   /* we're going to poll for events */
-  int data=0;
+  byte data=0;
    Wire.requestFrom(2, 4); 
    while(Wire.available())  {
     data = Wire.receive();       
@@ -89,86 +87,86 @@ void loop() {
 
 }
 
-void audio(int data) {
-  static int previousData = 0;
+void audio(byte data) {
+  static byte previousData = 0;
   static boolean interuptable = true;
-  static int track = 6;
+  static byte track = 6;
+  static byte randomable = 0;
   char* audiofiles[track];
-  switch (data) {
+    if (data == 0) {
+        audiofiles[0] = "00.WAV";
+        audiofiles[1] = "01.WAV";
+        audiofiles[2] = "02.WAV";
+        audiofiles[3] = "03.WAV";
+        audiofiles[4] = "04.WAV";
+        audiofiles[5] = "05.WAV";
+        randomable = 30;
+    }
+    if (data == 2) {
+        audiofiles[0] = "20.WAV";
+        audiofiles[1] = "21.WAV";
+        audiofiles[2] = "22.WAV";
+        audiofiles[3] = "23.WAV";
+        audiofiles[4] = "24.WAV";
+        audiofiles[5] = "25.WAV";
+        randomable = 25;
+    }
+    if (data == 4) {
+        audiofiles[0] = "40.WAV";
+        audiofiles[1] = "41.WAV";
+        audiofiles[2] = "42.WAV";
+        audiofiles[3] = "43.WAV";
+        audiofiles[4] = "44.WAV";
+        audiofiles[5] = "45.WAV";
+        randomable = 20;
+    }
+    if (data ==6) {
+        audiofiles[0] = "60.WAV";
+        audiofiles[1] = "61.WAV";
+        audiofiles[2] = "62.WAV";
+        audiofiles[3] = "63.WAV";
+        audiofiles[4] = "64.WAV";
+        audiofiles[5] = "65.WAV";
+        randomable = 15;
+    }
+    if(data == 8) {
+        audiofiles[0] = "80.WAV";
+        audiofiles[1] = "81.WAV";
+        audiofiles[2] = "82.WAV";
+        audiofiles[3] = "83.WAV";
+        audiofiles[4] = "84.WAV";
+        audiofiles[5] = "85.WAV";
+        randomable = 10;
+    }
+    if (data == 10) {
+        audiofiles[0] = "100.WAV";
+        audiofiles[1] = "101.WAV";
+        audiofiles[2] = "102.WAV";
+        audiofiles[3] = "103.WAV";
+        audiofiles[4] = "104.WAV";
+        audiofiles[5] = "105.WAV";
+        randomable = 5;
+    }
+    if (data == 11) {
+        audiofiles[0] = "110.WAV";
+        audiofiles[1] = "111.WAV";
+        audiofiles[2] = "112.WAV";
+        audiofiles[3] = "113.WAV";
+        audiofiles[4] = "114.WAV";
+        audiofiles[5] = "115.WAV";
+        randomable = 2;
+    }
+    if (data == 12) {
+     // Angry 
+        audiofiles[0] = "120.WAV";
+        audiofiles[1] = "121.WAV";
+        audiofiles[2] = "122.WAV";
+        audiofiles[3] = "123.WAV";
+        audiofiles[4] = "124.WAV";
+        audiofiles[5] = "125.WAV";
+        randomable = 30;
+    }
 
-     case 2:
-
-        audiofiles[0] = "20_00";
-        audiofiles[1] = "20_01";
-        audiofiles[2] = "20_02";
-        audiofiles[3] = "20_03";
-        audiofiles[4] = "20_04";
-        audiofiles[5] = "20_05";
-     break;
-     case 4:
-
-        audiofiles[0] = "40_00";
-        audiofiles[1] = "40_01";
-        audiofiles[2] = "40_02";
-        audiofiles[3] = "40_03";
-        audiofiles[4] = "40_04";
-        audiofiles[5] = "40_05";
-     break;
-     case 6: 
-
-        audiofiles[0] = "60_00";
-        audiofiles[1] = "60_01";
-        audiofiles[2] = "60_02";
-        audiofiles[3] = "60_03";
-        audiofiles[4] = "60_04";
-        audiofiles[5] = "60_05";
-     break;
-     case 8: 
-
-        audiofiles[0] = "80_00";
-        audiofiles[1] = "80_01";
-        audiofiles[2] = "80_02";
-        audiofiles[3] = "80_03";
-        audiofiles[4] = "80_04";
-        audiofiles[5] = "80_05";
-     break;
-     case 10:
-
-        audiofiles[0] = "100_00";
-        audiofiles[1] = "100_01";
-        audiofiles[2] = "100_02";
-        audiofiles[3] = "100_03";
-        audiofiles[4] = "100_04";
-        audiofiles[5] = "100_05";
-     break;
-     case 11:
-    /* hyper happy */
-        audiofiles[0] = "110_00";
-        audiofiles[1] = "110_01";
-        audiofiles[2] = "110_02";
-        audiofiles[3] = "110_03";
-        audiofiles[4] = "110_04";
-        audiofiles[5] = "110_05";
-     break;
-     case 12:
-     /* Angry */
-
-        audiofiles[0] = "120_00";
-        audiofiles[1] = "120_01";
-        audiofiles[2] = "120_02";
-        audiofiles[3] = "120_03";
-        audiofiles[4] = "120_04";
-        audiofiles[5] = "120_05";
-     break;
-     default:
-
-        audiofiles[0] = "00_00";
-        audiofiles[1] = "00_01";
-        audiofiles[2] = "00_02";
-        audiofiles[3] = "00_03";
-        audiofiles[4] = "00_04";
-        audiofiles[5] = "00_05";
-  }
 
 
 
@@ -176,8 +174,8 @@ void audio(int data) {
     /* nothing has changed.. maybe play a random one.. */
     if (!wave.isplaying) {
       interuptable = true;
-      if (random(10) == 0) {
-        int rand = random(6);
+      if (random(randomable) == 0) {
+        byte rand = random(6);
         if (rand > 0) {
           interuptable = false;
         } 
@@ -189,8 +187,8 @@ void audio(int data) {
   } else {
     if (wave.isplaying && interuptable) {
       interuptable = true;
-      if (random(10) == 0) {
-        int rand = random(6);
+      if (random(randomable) == 0) {
+        byte rand = random(6);
         if (rand > 0) {
           interuptable = false;
         } 
@@ -202,8 +200,8 @@ void audio(int data) {
     }
     if (!wave.isplaying) {
       interuptable = true;
-      if (random(10) == 0) {
-        int rand = random(6);
+      if (random(randomable) == 0) {
+        byte rand = random(6);
         if (rand > 0) {
           interuptable = false;
         } 
@@ -218,12 +216,6 @@ void audio(int data) {
 
 
 void playfile(char *name) {
-  /*
-  TODO: lio says this is why it's eating ram and diing. fix it!
-  */
-  name = strcat( name,  (char*) ".WAV");
-
-
   // see if the wave object is currently doing something
   if (wave.isplaying) {// already playing something, so stop it!
     wave.stop(); // stop it
