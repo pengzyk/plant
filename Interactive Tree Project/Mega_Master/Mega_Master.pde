@@ -2,7 +2,7 @@
   Interactive Tree project by Ziyun Peng and Paul Adams.
   pengzyk@gmail.com & nihaopaul@gmail.com - All rights reserved
 
-  TODO: fix so same states do not over-run each other in the lights section.
+  TODO: finish the lights section
   
 */
 
