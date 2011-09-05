@@ -2,7 +2,8 @@
   Interactive Tree project by Ziyun Peng and Paul Adams.
   pengzyk@gmail.com & nihaopaul@gmail.com - All rights reserved
 
-
+  TODO: detect an error in the touch sensor, this is where it stays super happy for a long time.
+  
 */
 
 #include <AikoEvents.h>
@@ -63,7 +64,7 @@ void setup() {
   Events.addHandler(setColor, 30); //this does the fading..see end of code.
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
-  Events.addHandler(printout, 100);
+  Events.addHandler(printout, 1000);
   
   //could be needy this next part
   Wire.begin(2);               
@@ -122,13 +123,10 @@ void smoothing() {
   plantActivity = average - calibration;
   
   moodstatus(plantActivity);
-  //Serial.println(plantActivity);
+  //Serial.println(plantActivity); // debugging only
 
 }
 
-void sensor() {
-  Serial.println(average);                  // print sensor output 1
-}
 
 
 
@@ -171,13 +169,11 @@ void printout() {
    Serial.print(MOOD);
   Serial.println("%");
   Serial.println("");
-  Serial.println("");
-    Serial.println("");
-      Serial.println("");
+
 }
 void moodstatus(long moodAdjustment) {
   static long jump = 0;
-  if (moodAdjustment > 60 && MOOD <110) {
+  if (moodAdjustment > 60 && MOOD <120) {
     MOOD= MOOD + 0.2;
   }
   
@@ -267,15 +263,33 @@ void eventReset() {
   Events.addHandler(setColor, 30);
 }
 
+int eventMagic() {
+  if (MOOD < 20) {
+    return 0;
+  }
+  if (MOOD < 40) {
+    return 2;
+  }
+    if (MOOD < 60) {
+    return 4;
+  }
+    if (MOOD < 80) {
+    return 6;
+  }
+    if (MOOD < 100) {
+    return 8;
+  }
+    if (MOOD < 110) {
+    return 10;
+  }
+    if (MOOD < 120) {
+    return 11;
+  }
+  return 12;
+
+}
 void requestEvent() {
-  /*
-  send: AABB
-  
-  AA = ground
-  BB = file if (BB==00) then this is the sound, 
-          and is interuptable on the otherside.. will ask for changes
-  */
-  Wire.send((int) 1); 
-  Serial.println("sent new data");
+/* one way communication to the arduino :) */
+  Wire.send(eventMagic()); 
 }
 
