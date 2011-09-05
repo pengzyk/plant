@@ -2,7 +2,7 @@
   Interactive Tree project by Ziyun Peng and Paul Adams.
   pengzyk@gmail.com & nihaopaul@gmail.com - All rights reserved
 
-  TODO: detect an error in the touch sensor, this is where it stays super happy for a long time.
+  TODO: fix so same states do not over-run each other in the lights section.
   
 */
 
@@ -10,7 +10,6 @@
 using namespace Aiko;
 
 #include <Wire.h> //need this for communication
-
 
 float MOOD = 0; //0 - 100% (should be 100% but we have added an additional state.. angry)
 long MOODDECREASE = 200; // 
@@ -21,9 +20,14 @@ long MOODINCREASE = 50; /*  in milliseconds, we need to set this and adjust as n
 int SENSITIVITY = 100; //adjust this for setting people limits.
 int MAX_BRIGHTNESS = 60; //0-100%  - we've had heat problems.
 
+
+
+
 static boolean pauselights = false;
-
-
+/*mega has lots of ram :) */
+byte stack[200][6] = {0}; //60 instructions in this order {light, red,green,blue,intensity,delay} bit of a ram pig though.
+byte stackptr = 0;
+byte stackDrv = 0;
 
 /*
   Helps to use a Mega 2650 - with a heatsink!
@@ -52,7 +56,7 @@ int LEDTARGET[3][4] = {
 CapSense   plantSensor = CapSense(38,28);  //i found a cheat or a work around for this one
 
 const int numReadings = 30;
-long readings[numReadings];  
+long readings[numReadings] = {0};  
 int index = 0;                  // the index of the current reading
 long total = 0;                  // the running total
 long average = 0;                // the average
@@ -63,7 +67,7 @@ long plantActivity;
 void setup() {
   Serial.begin(9600);
 
-  Events.addHandler(setColor, 30); //this does the fading..see end of code.
+//  Events.addHandler(setColor, 30); //removed as it's not used now, almost impossible to be used with the timing callback
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
   Events.addHandler(printout, 1000);
@@ -74,10 +78,11 @@ void setup() {
   
   //sensor data..
   plantSensor.set_CS_AutocaL_Millis(0xFFFFFFFF); 
-  
+  /*
   for (int thisReading = 0; thisReading < numReadings; thisReading++) {
     readings[thisReading] = 0;    
   }
+  */
 }
 
 void loop() {  
@@ -149,7 +154,7 @@ void sadly() {
   blue = 0 - 255
   intensity = 0 - 100 
 */
-void color(int light, int red, int green, int blue, int intensity) {
+void color(byte light, byte red, byte green, byte blue, byte intensity) {
   if (intensity > MAX_BRIGHTNESS) { intensity = MAX_BRIGHTNESS; }
   if (red > 0) { red = (red/100)*intensity; }
   if (green > 0) { green = (green/100)*intensity; }
@@ -160,7 +165,10 @@ void color(int light, int red, int green, int blue, int intensity) {
   LEDTARGET[light][2] = blue;
   LEDTARGET[light][3] = intensity;
 }
+
+// comment out after testing, uses ram
 void printout() {
+  
   int i = MOOD/10;
   Serial.println("==MOOD Adjustment====");
   Serial.print("0% ");
@@ -187,83 +195,36 @@ void moodstatus(long moodAdjustment) {
   jump = moodAdjustment;
 }
 
-/* dont adjust this unless you know when you're doing */
-
+/*
 void setColor() {
-  /* 
-    
-    TODO: Codify this with 2 loops
-    TODO: fix up the for loop
-    lets draw this out the long way for now.. then codify it later 
-  */
-
- for(int i=0; i< 3; i++) {
-    int red = LEDTARGET[i][0];
-    int green = LEDTARGET[i][1];
-    int blue = LEDTARGET[i][2];
-    
-    LEDCOLOR[i][0] = red > LEDCOLOR[i][0] ? LEDCOLOR[i][0] + 1: LEDCOLOR[i][0];
-    LEDCOLOR[i][0] = red < LEDCOLOR[i][0] ? LEDCOLOR[i][0] - 1: LEDCOLOR[i][0];
-    
-    LEDCOLOR[i][1] = green > LEDCOLOR[i][1] ? LEDCOLOR[i][1] + 1: LEDCOLOR[i][1];
-    LEDCOLOR[i][1] = green < LEDCOLOR[i][1] ? LEDCOLOR[i][1] - 1: LEDCOLOR[i][1];
-    
-    LEDCOLOR[i][2] = blue > LEDCOLOR[i][2] ? LEDCOLOR[i][2] + 1: LEDCOLOR[i][2];
-    LEDCOLOR[i][2] = blue < LEDCOLOR[i][2] ? LEDCOLOR[i][2] - 1: LEDCOLOR[i][2];
-    
-    analogWrite(LED[i][0], LEDCOLOR[i][0]);
-    analogWrite(LED[i][1], LEDCOLOR[i][1]);
-    analogWrite(LED[i][2], LEDCOLOR[i][2]);
-  }
+   
+   // fades between the colours set by color() function, this function is run by Aiko..
+  //  this is only here for reference only, not used anymore
+  
+ if (pauselights) {
+   for(int i=0; i< 3; i++) {
+      int red = LEDTARGET[i][0];
+      int green = LEDTARGET[i][1];
+      int blue = LEDTARGET[i][2];
+      
+      LEDCOLOR[i][0] = red > LEDCOLOR[i][0] ? LEDCOLOR[i][0] + 1: LEDCOLOR[i][0];
+      LEDCOLOR[i][0] = red < LEDCOLOR[i][0] ? LEDCOLOR[i][0] - 1: LEDCOLOR[i][0];
+      
+      LEDCOLOR[i][1] = green > LEDCOLOR[i][1] ? LEDCOLOR[i][1] + 1: LEDCOLOR[i][1];
+      LEDCOLOR[i][1] = green < LEDCOLOR[i][1] ? LEDCOLOR[i][1] - 1: LEDCOLOR[i][1];
+      
+      LEDCOLOR[i][2] = blue > LEDCOLOR[i][2] ? LEDCOLOR[i][2] + 1: LEDCOLOR[i][2];
+      LEDCOLOR[i][2] = blue < LEDCOLOR[i][2] ? LEDCOLOR[i][2] - 1: LEDCOLOR[i][2];
+      
+      analogWrite(LED[i][0], LEDCOLOR[i][0]);
+      analogWrite(LED[i][1], LEDCOLOR[i][1]);
+      analogWrite(LED[i][2], LEDCOLOR[i][2]);
+    }
+ }
  
 }
+*/
 
-void lightLIGHT(int light, int red, int green, int blue, int intensity) {
-  /*
-    another overriding show of colors
-  */
-  if (intensity > MAX_BRIGHTNESS) { intensity = MAX_BRIGHTNESS; }
-  if (red > 0) { red = (red/100)*intensity; }
-  if (green > 0) { green = (green/100)*intensity; }
-  if (blue > 0) { blue = (blue/100)*intensity;  }
-    
-  LEDTARGET[light][0] = red; 
-  LEDTARGET[light][1] = green;
-  LEDTARGET[light][2] = blue;
-  LEDTARGET[light][3] = intensity;
-  
-  LEDCOLOR[light][0] = 0;
-  LEDCOLOR[light][1] = 0;
-  LEDCOLOR[light][2] = 0;
-}
-
-void lightsOFF() {
-  /*
-    turns all lights off immediatly and sets 
-    the position so we dont have to change setColor();
-  */
-  for(int i=0; i< 3; i++) {
-    LEDCOLOR[i][0] = 0;
-    LEDTARGET[i][0] = 0;
-    
-    LEDCOLOR[i][1] = 0;
-    LEDTARGET[i][1] = 0;
-    
-    LEDCOLOR[i][2] = 0;
-    LEDTARGET[i][2] = 0;
-    
-    LEDTARGET[i][3] = 0; // intensity
-    
-    analogWrite(LED[i][0], LEDCOLOR[i][0]);
-    analogWrite(LED[i][1], LEDCOLOR[i][1]);
-    analogWrite(LED[i][2], LEDCOLOR[i][2]);
-  }
-}
-
-void eventReset() {
-  Events.reset();
-  Events.addHandler(setColor, 30);
-}
 
 int eventMagic() {
   if (MOOD < 20) {
@@ -292,25 +253,165 @@ int eventMagic() {
 }
 void requestEvent() {
 /* one way communication to the arduino :) */
-  Wire.send(eventMagic()); 
+ static byte i = 0;
+ byte e = eventMagic();
+ Wire.send(i); 
+
+//we dont want to call the light show too many times as it's on a loop anyway.
+if (i != e) {
+  switch (e) {
+    case 0:
+      light_0();
+    break;
+    case 2:
+      light_20();
+    break;
+    case 4:
+      light_40();
+    break;
+    case 6: 
+      light_60();
+    break;
+    case 8:
+      light_80();
+    break;
+    case 10:
+      light_100();
+    break;
+    case 11:
+      light_110();
+    break;
+    case 12:
+      light_120();
+    break;
+  }
+  i = e;
+}
+ 
+  
 }
 
+/* adds objects to the light show and moves the pointer */
+void lightShowData(byte light, byte red, byte green, byte blue, byte intensity, byte callDelay) {
+  stack[stackptr][0] = light;
+  stack[stackptr][1] = red;
+  stack[stackptr][2] = green;
+  stack[stackptr][3] = blue;
+  stack[stackptr][4] = intensity;
+  stack[stackptr][5] = callDelay;
+  stackptr++;
+}
+void lightShow() {
+  byte light = stack[stackDrv][0];
+  byte red = stack[stackDrv][1];
+  byte green = stack[stackDrv][2];
+  byte blue = stack[stackDrv][3];
+  byte intensity = stack[stackDrv][4];
+  byte calldelay = stack[stackDrv][5];
+  
+  if (intensity > MAX_BRIGHTNESS) { intensity = MAX_BRIGHTNESS; }
+  
+  if (red > 0) { red = (red/100)*intensity; }
+  if (green > 0) { green = (green/100)*intensity; }
+  if (blue > 0) { blue = (blue/100)*intensity;  }
+  
+  analogWrite(LED[light][0], red);
+  analogWrite(LED[light][1], green);
+  analogWrite(LED[light][2], blue);
+  if (stackDrv < stackptr) {
+    Events.addOneShotHandler(lightShow, calldelay);
+    stackDrv++;
+  } else {
+    stackDrv = 0;
+  }
+}
 
 /* light shows */
 void light_0() {
- // Events.addOneShotHandler(lightLIGHT(1,2,3,4,5), 1000);
+  /* breathing in white */
+ stackDrv,stackptr = 0;
+ for (byte j=0; j < 4; j++) {
+   for (byte i=0; i<3; i++) {
+     lightShowData(i,255,255,255,j*10,50);
+   }
+ }
+ lightShowData(0,255,255,255,100,1000);
+ lightShowData(1,255,255,255,100,1000);
+ lightShowData(2,255,255,255,100,1000);
+ for (byte j=4; j > 0; j--) {
+   for (byte i=0; i<3; i++) {
+     lightShowData(i,255,255,255,j*10,50);
+   }
+ }
+ /* run it */
+ lightShow();
 }
 void light_20() {
+  /* blink a few dull colours */
+  stackDrv,stackptr = 0;
 }
 void light_40() {
+  /* flash + increase intensity */
+  stackDrv,stackptr = 0;
 }
 void light_60() {
+  /* r/g/b rise */
+  stackDrv,stackptr = 0;
 }
 void light_80() {
+  stackDrv,stackptr = 0;
 }
 void light_100() {
+  stackDrv,stackptr = 0;
 }
 void light_110() {
+  stackDrv,stackptr = 0;
+  /* super bright colours */
+   for (byte i=0; i<3; i++) {
+     lightShowData(i,255,0,0,100,50);
+     lightShowData(i,0,255,0,100,50);
+     lightShowData(i,0,0,255,100,50);
+   }
+  for (byte i=0; i<3; i++) {
+     lightShowData(i,0,0,255,100,50);
+     lightShowData(i,255,0,0,100,50);
+     lightShowData(i,0,255,0,100,50);
+   }
+    for (byte i=0; i<3; i++) {
+     lightShowData(i,0,255,0,100,50);
+     lightShowData(i,0,0,255,100,50);
+     lightShowData(i,255,0,0,100,50);
+   }
+      for (byte i=0; i<3; i++) {
+     lightShowData(i,255,255,0,100,50);
+     lightShowData(i,0,255,255,100,50);
+     lightShowData(i,255,0,255,100,50);
+   }
+  for (byte i=0; i<3; i++) {
+     lightShowData(i,255,0,255,100,50);
+     lightShowData(i,255,255,0,100,50);
+     lightShowData(i,0,255,255,100,50);
+   }
+    for (byte i=0; i<3; i++) {
+     lightShowData(i,0,255,255,100,50);
+     lightShowData(i,255,0,255,100,50);
+     lightShowData(i,255,255,0,100,50);
+   }
+   lightShow();
 }
 void light_120() {
+  /* spiral red */
+ stackDrv,stackptr = 0;
+ for (byte j=0; j < 9; j++) {
+     lightShowData(0,255,0,0,j*10,100);
+     lightShowData(1,255,0,0,j*10,100);
+     lightShowData(2,255,0,0,j*10,100);
+ }
+  for (byte j=9; j > 0; j--) {
+     lightShowData(0,255,0,0,j*10,50);
+     lightShowData(1,255,0,0,j*10,50);
+     lightShowData(2,255,0,0,j*10,50);
+ }
+ /* run it */
+ lightShow();
 }
