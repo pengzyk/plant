@@ -14,6 +14,7 @@ using namespace Aiko;
 
 #include <Wire.h> //need this for communication
 
+
 int MOOD = 0; //0 - 100%
 long MOODDECREASE = 320; //in seconds, amount of time to get sad from 100%
 long MOODINCREASE = 60; //in seconds, the amount of interaction time needed to "charge"
@@ -43,31 +44,87 @@ int LEDTARGET[3][4] = {
    {0,0,0,0}
 }; //R(0-255),G(0-255),B(0-255),Intensity(0-100) -- this is the colour we want the lamp to be
 
-/* 
-  PWM not needed for these pins
-*/
-int AudioInt = 20; //needs a digital pin, HIGH or LOW to interupt the slave
-int AudioData = 21; //needs a pin to communicate things over, again digital
 
-int SensorTX = 22;
-int SensorRX = 23;
+//
+#include <CapSense.h> //sensor
+CapSense   plantSensor = CapSense(38,28);  //i found a cheat or a work around for this one
+
+const int numReadings = 30;
+long readings[numReadings];  
+int index = 0;                  // the index of the current reading
+long total = 0;                  // the running total
+long average = 0;                // the average
+long calibration = 0; //offset
+long plantActivity;
+
 
 void setup() {
   Serial.begin(9600);
 
   Events.addHandler(setColor, 30); //this does the fading..see end of code.
   Events.addHandler(sadly, (MOODDECREASE/MOOD) * 1000); //get sad function 
-  Events.addHandler(pauls, 1000);
+  Events.addHandler(smoothing, 50);
   
   //could be needy this next part
   Wire.begin(2);               
   Wire.onRequest(requestEvent); 
+  
+  //sensor data..
+  plantSensor.set_CS_AutocaL_Millis(0xFFFFFFFF); 
+  
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = 0;    
+  }
 }
 
-void loop() {
+void loop() {  
+  
   Events.loop();
 }
 
+void smoothing() {
+
+  total= total - readings[index];         
+  readings[index] = plantSensor.capSense(1); 
+  total= total + readings[index];       
+  index = index + 1;                    
+  static long i=0;
+
+  if (index >= numReadings) {        
+    index = 0;               
+  }    
+
+  long oldreading = average;
+  average = total / numReadings; 
+  /* filter some noise */
+  
+  if (average - calibration > 20 || average - calibration < -20) {
+   i++;
+   if (i > 100) {
+    Serial.println("\t - Calibration in progress -");
+    calibration = oldreading;
+    Serial.print("\t OFFSET: \t \t");
+    Serial.println(calibration);
+    i = 0;
+     Serial.println("if you see this oftern, adjust the limits in the outer IF statement");
+   }
+  } else {
+  /* we need to stop peoples occasional touch from starting the calibration */
+    if (i > 0) { 
+      i--; 
+    };
+  }
+
+  plantActivity = average - calibration;
+  Serial.println(plantActivity);
+
+}
+
+void sensor() {
+   
+    Serial.println(average);                  // print sensor output 1
+
+}
 
 void pauls() {
   lightLIGHT(0,255,255,255,100);
@@ -198,7 +255,7 @@ void requestEvent() {
   BB = file if (BB==00) then this is the sound, 
           and is interuptable on the otherside.. will ask for changes
   */
-  Wire.send("0000"); 
+  Wire.send((int) 1); 
   Serial.println("sent new data");
 }
 

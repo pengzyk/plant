@@ -84,7 +84,7 @@ void loop() {
     data = Wire.receive();       
    }
   audio(data); //up to 11 methods.
-  delay(1000);
+  delay(300);
 }
 
 void audio(int data) {
