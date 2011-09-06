@@ -84,7 +84,7 @@ void loop() {
      audio(data);
    }
 
-  delay(300);
+  delay(10);
 
 }
 
@@ -100,7 +100,7 @@ void audio(int data) {
         audiofiles[3] = "03.WAV";
         audiofiles[4] = "04.WAV";
         audiofiles[5] = "05.WAV";
-        randomable = 30;
+        randomable = 3200;
     }
     if (data == 2) {
         audiofiles[0] = "20.WAV";
@@ -109,7 +109,7 @@ void audio(int data) {
         audiofiles[3] = "23.WAV";
         audiofiles[4] = "24.WAV";
         audiofiles[5] = "25.WAV";
-        randomable = 25;
+        randomable = 250;
     }
     if (data == 4) {
         audiofiles[0] = "40.WAV";
@@ -118,7 +118,7 @@ void audio(int data) {
         audiofiles[3] = "43.WAV";
         audiofiles[4] = "44.WAV";
         audiofiles[5] = "45.WAV";
-        randomable = 20;
+        randomable = 200;
     }
     if (data ==6) {
         audiofiles[0] = "60.WAV";
@@ -127,7 +127,7 @@ void audio(int data) {
         audiofiles[3] = "63.WAV";
         audiofiles[4] = "64.WAV";
         audiofiles[5] = "65.WAV";
-        randomable = 15;
+        randomable = 150;
     }
     if(data == 8) {
         audiofiles[0] = "80.WAV";
@@ -136,7 +136,7 @@ void audio(int data) {
         audiofiles[3] = "83.WAV";
         audiofiles[4] = "84.WAV";
         audiofiles[5] = "85.WAV";
-        randomable = 10;
+        randomable = 100;
     }
     if (data == 10) {
         audiofiles[0] = "100.WAV";
@@ -145,7 +145,7 @@ void audio(int data) {
         audiofiles[3] = "103.WAV";
         audiofiles[4] = "104.WAV";
         audiofiles[5] = "105.WAV";
-        randomable = 5;
+        randomable = 50;
     }
     if (data == 11) {
         audiofiles[0] = "110.WAV";
@@ -154,7 +154,7 @@ void audio(int data) {
         audiofiles[3] = "113.WAV";
         audiofiles[4] = "114.WAV";
         audiofiles[5] = "115.WAV";
-        randomable = 2;
+        randomable = 10;
     }
     if (data >= 12) {
      // Angry 
@@ -164,7 +164,7 @@ void audio(int data) {
         audiofiles[3] = "123.WAV";
         audiofiles[4] = "124.WAV";
         audiofiles[5] = "125.WAV";
-        randomable = 30;
+        randomable = 0;
     }
 
 
@@ -195,8 +195,10 @@ void audio(int data) {
         playfile(audiofiles[rand]);
       } 
     }
-    if (wave.isplaying && !interuptable) {
-      //nope cannot interupt the audio
+    if (wave.isplaying && !interuptable && randomable == 0) {
+      byte rand = random(6);
+      playfile(audiofiles[rand]);
+      interuptable = false;
     }
     if (!wave.isplaying) {
       interuptable = true;
