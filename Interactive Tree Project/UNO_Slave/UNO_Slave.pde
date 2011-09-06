@@ -69,7 +69,7 @@ void setup() {
   // Whew! We got past the tough parts.
   putstring_nl("Ready!");
   
- // Wire.begin();                
+ Wire.begin();                
 
 
 }
@@ -77,22 +77,22 @@ void setup() {
 void loop() {
  
   /* we're going to poll for events */
-  byte data=0;
-   Wire.requestFrom(2, 4); 
+
+   Wire.requestFrom(2, 1); 
    while(Wire.available())  {
-    data = Wire.receive();       
+     int data = Wire.receive();       
+     audio(data);
    }
-  audio(data);
+
   delay(300);
 
 }
 
-void audio(byte data) {
-  static byte previousData = 0;
+void audio(int data) {
+  static int previousData = 0;
   static boolean interuptable = true;
-  static byte track = 6;
-  static byte randomable = 0;
-  char* audiofiles[track];
+  static int randomable = 0;
+  char* audiofiles[6];
     if (data == 0) {
         audiofiles[0] = "00.WAV";
         audiofiles[1] = "01.WAV";
@@ -156,7 +156,7 @@ void audio(byte data) {
         audiofiles[5] = "115.WAV";
         randomable = 2;
     }
-    if (data == 12) {
+    if (data >= 12) {
      // Angry 
         audiofiles[0] = "120.WAV";
         audiofiles[1] = "121.WAV";
@@ -209,13 +209,15 @@ void audio(byte data) {
         playfile(audiofiles[rand]);
       } 
     }
+    previousData = data; //we want to compare.
   }
-  free(audiofiles);
-  previousData = data; //we want to compare.
+  //free(audiofiles);
+  
 }
 
 
 void playfile(char *name) {
+  Serial.println(name);
   // see if the wave object is currently doing something
   if (wave.isplaying) {// already playing something, so stop it!
     wave.stop(); // stop it

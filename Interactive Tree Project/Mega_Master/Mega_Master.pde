@@ -70,7 +70,7 @@ void setup() {
 //  Events.addHandler(setColor, 30); //removed as it's not used now, almost impossible to be used with the timing callback
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
-  Events.addHandler(printout, 1000);
+ // Events.addHandler(printout, 1000);
   
   //could be needy this next part
   Wire.begin(2);               
@@ -227,6 +227,7 @@ void setColor() {
 
 
 int eventMagic() {
+ 
   if (MOOD < 20) {
     return 0;
   }
@@ -253,40 +254,43 @@ int eventMagic() {
 }
 void requestEvent() {
 /* one way communication to the arduino :) */
+
  static byte i = 0;
- byte e = eventMagic();
- Wire.send(i); 
+ static byte e = 0;
+ e = eventMagic();
+ Wire.send(e); 
+
 
 //we dont want to call the light show too many times as it's on a loop anyway.
-if (i != e) {
-  switch (e) {
-    case 0:
-      light_0();
-    break;
-    case 2:
-      light_20();
-    break;
-    case 4:
-      light_40();
-    break;
-    case 6: 
-      light_60();
-    break;
-    case 8:
-      light_80();
-    break;
-    case 10:
-      light_100();
-    break;
-    case 11:
-      light_110();
-    break;
-    case 12:
-      light_120();
-    break;
+  if (i != e) {
+    switch (e) {
+      case 0:
+        light_0();
+      break;
+      case 2:
+        light_20();
+      break;
+      case 4:
+        light_40();
+      break;
+      case 6: 
+        light_60();
+      break;
+      case 8:
+        light_80();
+      break;
+      case 10:
+        light_100();
+      break;
+      case 11:
+        light_110();
+      break;
+      case 12:
+        light_120();
+      break;
+    }
+    i = e;
   }
-  i = e;
-}
  
   
 }
