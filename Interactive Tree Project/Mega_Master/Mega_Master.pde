@@ -216,8 +216,8 @@ void moodstatus(long moodAdjustment) {
 
   //need this here
   /* too many people detector */
-  if (moodAdjustment > 400) {
-    MOOD = 130;
+  if (MOOD < 120 && moodAdjustment > 400) {
+   MOOD = 125;
   }
 
 }
@@ -312,6 +312,7 @@ void requestEvent() {
         break;
       case 12:
         light_120();
+        
         break;
       default:
         light_0();
