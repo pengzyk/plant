@@ -87,7 +87,7 @@ void setup() {
 
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
-  Events.addHandler(printout, 1000);
+  //Events.addHandler(printout, 1000);
 
   //could be needy this next part
   Wire.begin(2);               
@@ -125,7 +125,7 @@ void smoothing() {
 
   /* filter some noise and auto-calibrate ourselves */
 
-  if (average - calibration > 20 || average - calibration < -20) {
+  if (average - calibration > 4 || average - calibration < -4) {
     i++;
     /* arbitary number which has no relative meaning, this stops us from always calibrating */
     if (i > 360) {
@@ -148,7 +148,7 @@ void smoothing() {
   plantActivity = average - calibration;
 
   moodstatus(plantActivity);
-  //Serial.println(plantActivity); // debugging only
+  Serial.println(plantActivity); // debugging only
 
 }
 
@@ -210,13 +210,13 @@ void printout() {
 }
 void moodstatus(long moodAdjustment) {
   //Serial.println(moodAdjustment);
-  if (moodAdjustment > 30 && MOOD <120) {
+  if (moodAdjustment > 4 && MOOD <120) {
     MOOD= MOOD + 0.2;
   }
 
   //need this here
   /* too many people detector */
-  if (MOOD < 120 && moodAdjustment > 400) {
+  if (MOOD < 120 && moodAdjustment > 30) {
    MOOD = 125;
   }
 
