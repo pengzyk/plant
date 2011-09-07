@@ -94,12 +94,14 @@ void audio(int data) {
   static int randomable = 0;
   char* audiofiles[6];
     if (data == 0) {
+        if (data == 0) {
         audiofiles[0] = "00.WAV";
         audiofiles[1] = "01.WAV";
         audiofiles[2] = "02.WAV";
         audiofiles[3] = "03.WAV";
         audiofiles[4] = "04.WAV";
-        audiofiles[5] = "05.WAV";
+        audiofiles[5] = "02.WAV";
+        audiofiles[6] = "03.WAV";
         randomable = 3200;
     }
     if (data == 2) {
@@ -108,7 +110,8 @@ void audio(int data) {
         audiofiles[2] = "22.WAV";
         audiofiles[3] = "23.WAV";
         audiofiles[4] = "24.WAV";
-        audiofiles[5] = "25.WAV";
+        audiofiles[5] = "22.WAV";
+        audiofiles[6] = "23.WAV";
         randomable = 250;
     }
     if (data == 4) {
@@ -117,7 +120,8 @@ void audio(int data) {
         audiofiles[2] = "42.WAV";
         audiofiles[3] = "43.WAV";
         audiofiles[4] = "44.WAV";
-        audiofiles[5] = "45.WAV";
+        audiofiles[5] = "42.WAV";
+        audiofiles[6] = "44.WAV";
         randomable = 200;
     }
     if (data ==6) {
@@ -127,6 +131,7 @@ void audio(int data) {
         audiofiles[3] = "63.WAV";
         audiofiles[4] = "64.WAV";
         audiofiles[5] = "65.WAV";
+        audiofiles[6] = "65.WAV";
         randomable = 150;
     }
     if(data == 8) {
@@ -136,6 +141,7 @@ void audio(int data) {
         audiofiles[3] = "83.WAV";
         audiofiles[4] = "84.WAV";
         audiofiles[5] = "85.WAV";
+        audiofiles[6] = "86.WAV";
         randomable = 100;
     }
     if (data == 10) {
@@ -145,15 +151,16 @@ void audio(int data) {
         audiofiles[3] = "103.WAV";
         audiofiles[4] = "104.WAV";
         audiofiles[5] = "105.WAV";
+        audiofiles[6] = "106.WAV";
         randomable = 50;
     }
     if (data == 11) {
         audiofiles[0] = "110.WAV";
-        audiofiles[1] = "111.WAV";
-        audiofiles[2] = "112.WAV";
-        audiofiles[3] = "113.WAV";
-        audiofiles[4] = "114.WAV";
-        audiofiles[5] = "115.WAV";
+        audiofiles[1] = "110.WAV";
+        audiofiles[2] = "110.WAV";
+        audiofiles[3] = "110.WAV";
+        audiofiles[4] = "110.WAV";
+        audiofiles[5] = "110.WAV";
         randomable = 10;
     }
     if (data >= 12) {
@@ -163,7 +170,8 @@ void audio(int data) {
         audiofiles[2] = "122.WAV";
         audiofiles[3] = "123.WAV";
         audiofiles[4] = "124.WAV";
-        audiofiles[5] = "125.WAV";
+        audiofiles[5] = "123.WAV";
+        audiofiles[6] = "121.WAV";
         randomable = 0;
     }
 
