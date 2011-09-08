@@ -260,11 +260,12 @@ void requestEvent() {
   Wire.send(e); 
 
   if (MOOD > 0.2) {
+    
     calibrationDecounter=0;//set the counter back to zero for calibration
     //we dont want to call the light show too many times as it's on a loop anyway.
     if (i != e) {
+      REACTIVE++; // should fix it's problem and make it harder to get to the end..
       switch (e) {
-
       case 2:
         light_20();
         break;
