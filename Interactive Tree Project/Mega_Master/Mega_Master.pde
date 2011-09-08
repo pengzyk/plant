@@ -17,9 +17,9 @@ long MOODINCREASE = 50; /*  in milliseconds, we need to set this and adjust as n
  since we know we're calling it every 50ms but also doing sample smoothing..
  Trial by error
  */
-int SENSITIVITY = 100; //adjust this for setting people limits.
+int SENSITIVITY = 800; //adjust this for setting people limits.
 int MAX_BRIGHTNESS = 100; //0-100%  - we've had heat problems.
-
+int REACTIVE = 60; // this should move around.
 
 
 
@@ -125,7 +125,7 @@ void smoothing() {
 
   /* filter some noise and auto-calibrate ourselves */
 
-  if (average - calibration > 4 || average - calibration < -4) {
+  if (average - calibration > REACTIVE || average - calibration < -REACTIVE) {
     i++;
     /* arbitary number which has no relative meaning, this stops us from always calibrating */
     if (i > 360) {
@@ -148,7 +148,7 @@ void smoothing() {
   plantActivity = average - calibration;
 
   moodstatus(plantActivity);
-  Serial.println(plantActivity); // debugging only
+  //Serial.println(plantActivity); // debugging only
 
 }
 
@@ -210,47 +210,18 @@ void printout() {
 }
 void moodstatus(long moodAdjustment) {
   //Serial.println(moodAdjustment);
-  if (moodAdjustment > 4 && MOOD <120) {
+  if (moodAdjustment > REACTIVE && MOOD <120) {
     MOOD= MOOD + 0.2;
   }
 
   //need this here
   /* too many people detector */
-  if (MOOD < 120 && moodAdjustment > 30) {
+  if (MOOD < 120 && moodAdjustment > SENSITIVITY) {
    MOOD = 125;
   }
 
 }
 
-/*
-void setColor() {
-
-  // fades between the colours set by color() function, this function is run by Aiko..
-  //  this is only here for reference only, not used anymore
-
-  if (pauselights) {
-    for(int i=0; i< 3; i++) {
-      int red = LEDTARGET[i][0];
-      int green = LEDTARGET[i][1];
-      int blue = LEDTARGET[i][2];
-
-      LEDCOLOR[i][0] = red > LEDCOLOR[i][0] ? LEDCOLOR[i][0] + 1: LEDCOLOR[i][0];
-      LEDCOLOR[i][0] = red < LEDCOLOR[i][0] ? LEDCOLOR[i][0] - 1: LEDCOLOR[i][0];
-
-      LEDCOLOR[i][1] = green > LEDCOLOR[i][1] ? LEDCOLOR[i][1] + 1: LEDCOLOR[i][1];
-      LEDCOLOR[i][1] = green < LEDCOLOR[i][1] ? LEDCOLOR[i][1] - 1: LEDCOLOR[i][1];
-
-      LEDCOLOR[i][2] = blue > LEDCOLOR[i][2] ? LEDCOLOR[i][2] + 1: LEDCOLOR[i][2];
-      LEDCOLOR[i][2] = blue < LEDCOLOR[i][2] ? LEDCOLOR[i][2] - 1: LEDCOLOR[i][2];
-
-      analogWrite(LED[i][0], LEDCOLOR[i][0]);
-      analogWrite(LED[i][1], LEDCOLOR[i][1]);
-      analogWrite(LED[i][2], LEDCOLOR[i][2]);
-    }
-  }
-
-}
-*/
 
 
 int eventMagic() {
@@ -281,13 +252,15 @@ int eventMagic() {
 }
 void requestEvent() {
   /* one way communication to the arduino :) */
-
-  static int i = -1;
-  static int e = 0;
+  static int calibrationDecounter = 0;//calibration count
+  static int calibrationUnderCounter = 0;//calibration count
+  static int i = -1; //comparing - need this to run the show
+  static int e = 0; //event group
   e = eventMagic();
   Wire.send(e); 
 
   if (MOOD > 0.2) {
+    calibrationDecounter=0;//set the counter back to zero for calibration
     //we dont want to call the light show too many times as it's on a loop anyway.
     if (i != e) {
       switch (e) {
@@ -319,6 +292,16 @@ void requestEvent() {
         break;
       }
       i = e;
+    } else {
+      if (e == 11) {
+        if (calibrationUnderCounter > 100) {
+          REACTIVE++;
+          Serial.println(REACTIVE);
+          calibrationUnderCounter = 0;
+        } else { 
+          calibrationUnderCounter++;
+        }
+      }
     }
 
   } else {
@@ -329,6 +312,14 @@ void requestEvent() {
       analogWrite(LED[i][2], 0);
     }
     i = -1;
+    /* a little magic to get it to calibrate itself */
+    if (calibrationDecounter>1000) {
+      REACTIVE--;
+      Serial.println(REACTIVE);
+      calibrationDecounter = 0;
+    } else {
+      calibrationDecounter++;
+    }
   }
 }
 
