@@ -17,7 +17,7 @@ long MOODINCREASE = 50; /*  in milliseconds, we need to set this and adjust as n
  since we know we're calling it every 50ms but also doing sample smoothing..
  Trial by error
  */
-int SENSITIVITY = 800; //adjust this for setting people limits.
+int SENSITIVITY = 100; //adjust this for setting people limits// tune this
 int MAX_BRIGHTNESS = 100; //0-100%  - we've had heat problems.
 int REACTIVE = 60; // this should move around.
 
@@ -87,6 +87,7 @@ void setup() {
 
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
+  Events.addHandler(SENSITIVITYTUNE, 60000);
   //Events.addHandler(printout, 1000);
 
   //could be needy this next part
@@ -107,6 +108,10 @@ void loop() {
   Events.loop();
 }
 
+void SENSITIVITYTUNE() {
+  //adjust the sensitivity downwards over time..
+  SENSITIVITY--;
+}
 void smoothing() {
 
   total= total - readings[index];         
@@ -218,6 +223,7 @@ void moodstatus(long moodAdjustment) {
   /* too many people detector */
   if (MOOD < 120 && moodAdjustment > SENSITIVITY) {
    MOOD = 125;
+   SENSITIVITY = moodAdjustment +20; //Just record the highest one.. we can tick down very slowly incase we get some offsets.
   }
 
 }
@@ -286,7 +292,6 @@ void requestEvent() {
         break;
       case 12:
         light_120();
-        
         break;
       default:
         light_0();
@@ -297,7 +302,7 @@ void requestEvent() {
       if (e == 11) {
         if (calibrationUnderCounter > 100) {
           REACTIVE++;
-          SENSITIVITY = REACTIVE * 20; //again an arbatary number
+
           Serial.println(REACTIVE);
           calibrationUnderCounter = 0;
         } else { 
@@ -317,7 +322,6 @@ void requestEvent() {
     /* a little magic to get it to calibrate itself */
     if (calibrationDecounter>1000) {
       REACTIVE--;
-      SENSITIVITY = REACTIVE * 20; //again an arbatary number
       Serial.println(REACTIVE);
       calibrationDecounter = 0;
     } else {
