@@ -320,7 +320,7 @@ void requestEvent() {
     }
     i = -1;
     /* a little magic to get it to calibrate itself */
-    if (calibrationDecounter>1000) {
+    if (calibrationDecounter>3000) {
       REACTIVE--;
       Serial.println(REACTIVE);
       calibrationDecounter = 0;
