@@ -297,6 +297,7 @@ void requestEvent() {
       if (e == 11) {
         if (calibrationUnderCounter > 100) {
           REACTIVE++;
+          SENSITIVITY = REACTIVE * 20; //again an arbatary number
           Serial.println(REACTIVE);
           calibrationUnderCounter = 0;
         } else { 
@@ -316,6 +317,7 @@ void requestEvent() {
     /* a little magic to get it to calibrate itself */
     if (calibrationDecounter>1000) {
       REACTIVE--;
+      SENSITIVITY = REACTIVE * 20; //again an arbatary number
       Serial.println(REACTIVE);
       calibrationDecounter = 0;
     } else {
