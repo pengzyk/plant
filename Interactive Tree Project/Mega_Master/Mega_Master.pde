@@ -87,7 +87,7 @@ void setup() {
 
   Events.addHandler(sadly, MOODDECREASE); //get sad function 
   Events.addHandler(smoothing, MOODINCREASE); //get happy function
-  Events.addHandler(SENSITIVITYTUNE, 60000);
+//  Events.addHandler(SENSITIVITYTUNE, 60000);
   //Events.addHandler(printout, 1000);
 
   //could be needy this next part
@@ -221,10 +221,10 @@ void moodstatus(long moodAdjustment) {
 
   //need this here
   /* too many people detector */
-  if (MOOD < 120 && moodAdjustment > SENSITIVITY) {
+ /* if (MOOD < 120 && moodAdjustment > SENSITIVITY) {
    MOOD = 125;
    SENSITIVITY = moodAdjustment +20; //Just record the highest one.. we can tick down very slowly incase we get some offsets.
-  }
+  }*/
 
 }
 
