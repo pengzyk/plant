@@ -231,7 +231,9 @@ void moodstatus(long moodAdjustment) {
 
 
 int eventMagic() {
-
+  if (MOOD < 0.2) {
+    return 13;
+  }
   if (MOOD < 20) {
     return 0;
   }

@@ -94,7 +94,6 @@ void audio(int data) {
   static int randomable = 0;
   char* audiofiles[6];
     if (data == 0) {
-        if (data == 0) {
         audiofiles[0] = "00.WAV";
         audiofiles[1] = "01.WAV";
         audiofiles[2] = "02.WAV";
@@ -163,7 +162,7 @@ void audio(int data) {
         audiofiles[5] = "110.WAV";
         randomable = 10;
     }
-    if (data >= 12) {
+    if (data == 12) {
      // Angry 
         audiofiles[0] = "120.WAV";
         audiofiles[1] = "121.WAV";
